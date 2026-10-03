@@ -3,426 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerrit Hoskins | Frontend- und Mobile-Entwickler Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Gerrit Hoskins | Frontend- & Mobile-Entwickler</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-body: #ffffff;
-            --bg-section: #f8fafc;
-            --text-main: #0f172a;
-            --text-sub: #475569;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --pill-bg: #f1f5f9;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --primary: #3b82f6;
-                --primary-hover: #60a5fa;
-                --bg-body: #0f172a;
-                --bg-section: #1e293b;
-                --text-main: #f1f5f9;
-                --text-sub: #cbd5e1;
-                --text-muted: #94a3b8;
-                --border-color: #334155;
-                --pill-bg: #334155;
-            }
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        header {
-            padding: 5rem 0 3rem;
-            text-align: center;
-        }
-
-        .name {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: -0.025em;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-        }
-
-        .job-title {
-            font-size: 1.5rem;
-            color: var(--primary);
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-        }
-
-        .tagline {
-            font-size: 1.125rem;
-            color: var(--text-sub);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-
-        section {
-            padding: 4rem 0;
-            border-top: 1px solid var(--border-color);
-        }
-
-        h2 {
-            font-size: 1.75rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        h2::after {
-            content: "";
-            height: 2px;
-            flex-grow: 1;
-            background: var(--border-color);
-        }
-
-        /* About */
-        .about-text {
-            font-size: 1.1rem;
-            color: var(--text-sub);
-        }
-
-        /* Experience */
-        .exp-item {
-            margin-bottom: 3rem;
-        }
-
-        .exp-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .exp-role {
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .exp-company {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .exp-date {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .exp-list {
-            list-style: none;
-            padding-left: 1.2rem;
-        }
-
-        .exp-list li {
-            position: relative;
-            margin-bottom: 0.5rem;
-            color: var(--text-sub);
-        }
-
-        .exp-list li::before {
-            content: "•";
-            position: absolute;
-            left: -1.2rem;
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        /* Projects */
-        .project-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .project-card {
-            background: var(--bg-section);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .project-title {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-desc {
-            font-size: 0.95rem;
-            color: var(--text-sub);
-            margin-bottom: 1rem;
-        }
-
-        .tech-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .tech-tag {
-            font-size: 0.75rem;
-            background: var(--pill-bg);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        /* Skills */
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .skill-pill {
-            background: var(--bg-section);
-            border: 1px solid var(--border-color);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .skill-pill:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* Education & Contact */
-        .edu-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-        }
-
-        .btn-contact {
-            display: inline-block;
-            background: var(--primary);
-            color: #fff;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        .btn-contact:hover {
-            background: var(--primary-hover);
-        }
-
-        .social-links {
-            margin-top: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        .social-links a {
-            color: var(--text-sub);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .social-links a:hover {
-            color: var(--primary);
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem 0;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        @media (max-width: 600px) {
-            .name { font-size: 2.5rem; }
-            .exp-header { flex-direction: column; }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text { background: linear-gradient(90deg, #3b82f6, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-card { transition: transform 0.2s ease-in-out; }
+        .section-card:hover { transform: translateY(-2px); }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-900 leading-relaxed">
 
-<header>
-    <div class="container">
-        <h1 class="name">Gerrit Hoskins</h1>
-        <p class="job-title">Frontend- und Mobile-Entwickler</p>
-        <p class="tagline">Technologische Exzellenz in Web- und Mobile-Architektur. Spezialist für TypeScript, Vue und native App-Integrationen.</p>
-        <a href="mailto:igawtdis@hotmail.com" class="btn-contact">Kontaktieren Sie mich</a>
-    </div>
-</header>
-
-<div class="container">
-    <section id="about">
-        <h2>About Me</h2>
-        <div class="about-text">
-            <p>Ich verfüge über mehr als zehn Jahre Erfahrung in der Entwicklung von Webanwendungen und plattformübergreifenden Apps. Mein technischer Schwerpunkt liegt auf TypeScript, Vue und Capacitor sowie nativen Integrationen für iOS und Android. Ich übernehme die volle technische Verantwortung — von der ersten Architekturplanung bis hin zum Release und der Analyse komplexer Produktionsprobleme. Darüber hinaus entwickle ich innovative, KI-gestützte Entwicklungswerkzeuge, um Arbeitsabläufe effizienter und sicherer zu gestalten.</p>
-        </div>
-    </section>
-
-    <section id="experience">
-        <h2>Professional Experience</h2>
-        
-        <div class="exp-item">
-            <div class="exp-header">
-                <div>
-                    <span class="exp-role">Frontend & Cross-Platform Mobile Developer</span><br>
-                    <span class="exp-company">meinestadt.de GmbH</span>
-                </div>
-                <span class="exp-date">12/2023 – Heute</span>
-            </div>
-            <ul class="exp-list">
-                <li>Migration der Pushkommunikation zu Braze inklusive Entwicklung eines Capacitor-Plugins für iOS/Android.</li>
-                <li>Refactoring und Entwicklung eines nativen Datei-Upload-Plugins mit plattformspezifischer Fehlerbehandlung.</li>
-                <li>Automatisierung von Build- und Releaseabläufen mittels GitLab CI/CD, Fastlane und Appflow.</li>
-                <li>Integration und Optimierung von Deep-Link-Flows mit Capacitor und Branch.</li>
-                <li>Einführung von Qualitätssicherungs-Standards durch Vitest, Cypress und Appium.</li>
-            </ul>
-        </div>
-
-        <div class="exp-item">
-            <div class="exp-header">
-                <div>
-                    <span class="exp-role">Frontend & Cross-Platform Mobile Developer</span><br>
-                    <span class="exp-company">BitBurst GmbH</span>
-                </div>
-                <span class="exp-date">02/2021 – 10/2023</span>
-            </div>
-            <ul class="exp-list">
-                <li>Entwicklung eines In-App-Browser-Plugins mit nativen WebViews (Swift/Java) für Poll Pay.</li>
-                <li>Migration der Kernanwendung von Vue 2 auf Vue 3.</li>
-                <li>Integration von mParticle zur Kundensegmentierung und biometrischer Authentifizierung zur Betrugsprävention.</li>
-            </ul>
-        </div>
-
-        <div class="exp-item">
-            <div class="exp-header">
-                <div>
-                    <span class="exp-role">Frontend Developer</span><br>
-                    <span class="exp-company">Apollo-Optik GmbH & Co. KG</span>
-                </div>
-                <span class="exp-date">11/2019 – 10/2020</span>
-            </div>
-            <ul class="exp-list">
-                <li>Architekturverantwortung für Omnichannel E-Commerce basierend auf React und Frontastic.</li>
-                <li>Steuerung externer Agenturen und Mentoring interner Teammitglieder.</li>
-            </ul>
-        </div>
-
-        <div class="exp-item">
-            <div class="exp-header">
-                <div>
-                    <span class="exp-role">Frontend Developer</span><br>
-                    <span class="exp-company">ISO-Gruppe</span>
-                </div>
-                <span class="exp-date">04/2017 – 09/2019</span>
-            </div>
-            <ul class="exp-list">
-                <li>Entwicklung von Buchungssystemen für Airlines und Erweiterung von Magnolia Headless CMS.</li>
-                <li>Optimierung der Barrierefreiheit nach WCAG, was zu 7% mehr Neunutzern führte.</li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="projects">
-        <h2>KI-gestützte Projekte</h2>
-        <div class="project-grid">
-            <div class="project-card">
-                <div class="project-title">MCP-Server für Coding-Assistenten</div>
-                <p class="project-desc">Entwicklung eines Servers, der Coding-Assistenten spezifische Projektregeln und Lösungsmuster für effizientere Code-Reviews bereitstellt.</p>
-                <div class="tech-list">
-                    <span class="tech-tag">Model Context Protocol</span>
-                    <span class="tech-tag">TypeScript</span>
-                    <span class="tech-tag">AI-Tooling</span>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-title">Agenten-Skills Bibliothek</div>
-                <p class="project-desc">Wiederverwendbare Prompt-Bausteine für automatisierte Qualitätsprüfungen, Barrierefreiheit-Audits und E2E-Test-Analysen.</p>
-                <div class="tech-list">
-                    <span class="tech-tag">Prompt Engineering</span>
-                    <span class="tech-tag">Cypress</span>
-                    <span class="tech-tag">Automation</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills">
-        <h2>Technical Skills</h2>
-        <div class="skills-container">
-            <span class="skill-pill">TypeScript</span>
-            <span class="skill-pill">Vue 3</span>
-            <span class="skill-pill">React</span>
-            <span class="skill-pill">Capacitor</span>
-            <span class="skill-pill">Ionic</span>
-            <span class="skill-pill">Swift</span>
-            <span class="skill-pill">Kotlin</span>
-            <span class="skill-pill">GitLab CI/CD</span>
-            <span class="skill-pill">Docker</span>
-            <span class="skill-pill">Node.js</span>
-            <span class="skill-pill">Sentry</span>
-            <span class="skill-pill">Vitest</span>
-            <span class="skill-pill">Cypress</span>
-            <span class="skill-pill">Fastlane</span>
-            <span class="skill-pill">Tailwind CSS</span>
-            <span class="skill-pill">Firebase</span>
-        </div>
-    </section>
-
-    <section id="education">
-        <h2>Education</h2>
-        <div class="edu-item">
+    <!-- Header / Hero -->
+    <header class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
-                <strong>B.Sc. Wirtschaftsinformatik</strong><br>
-                <span>Technische Hochschule Deggendorf</span>
+                <h1 class="text-2xl font-bold tracking-tight">Gerrit Hoskins</h1>
+                <p class="text-blue-600 font-medium">Frontend- & Mobile-Entwickler</p>
             </div>
-            <span class="exp-date">2013</span>
-        </div>
-    </section>
-
-    <section id="contact">
-        <h2>Get In Touch</h2>
-        <div style="text-align: center;">
-            <p class="about-text">Bereit für das nächste große Projekt? Kontaktieren Sie mich direkt per E-Mail oder vernetzen Sie sich auf LinkedIn.</p>
-            <a href="mailto:igawtdis@hotmail.com" class="btn-contact">Email schreiben</a>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/gerrit-hoskins/" target="_blank">LinkedIn</a>
-                <a href="https://pixeltronic.dev" target="_blank">Webseite</a>
+            <div class="flex flex-wrap justify-center gap-4 text-sm text-slate-600">
+                <a href="mailto:gerrit.hoskins@gmail.com" class="hover:text-blue-600"><i class="fas fa-envelope mr-1"></i> gerrit.hoskins@gmail.com</a>
+                <a href="https://pixeltronic.dev" target="_blank" class="hover:text-blue-600"><i class="fas fa-globe mr-1"></i> pixeltronic.dev</a>
+                <a href="https://www.linkedin.com/in/gerrit-hoskins/" target="_blank" class="hover:text-blue-600"><i class="fab fa-linkedin mr-1"></i> LinkedIn</a>
+                <span class="hidden md:inline text-slate-300">|</span>
+                <span><i class="fas fa-map-marker-alt mr-1"></i> Nürnberg, DE</span>
             </div>
         </div>
-    </section>
-</div>
+    </header>
 
-<footer>
-    <div class="container">
-        <p>&copy; 2024 Gerrit Hoskins | Nürnberg, Deutschland</p>
-    </div>
-</footer>
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-16">
+        
+        <!-- Profile -->
+        <section>
+            <h2 class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-4">Profil</h2>
+            <p class="text-xl text-slate-700 font-light max-w-3xl">
+                Über zehn Jahre Erfahrung in Webanwendungen und plattformübergreifenden Apps. Schwerpunkt auf <span class="font-semibold text-slate-900">TypeScript, Vue und Capacitor</span>. Ich kombiniere technisches Architektur-Know-how mit moderner KI-gestützter Entwicklung (MCP), um effiziente und wartbare Lösungen zu schaffen.
+            </p>
+        </section>
+
+        <!-- Skills Grid -->
+        <section>
+            <h2 class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-6">Technische Kenntnisse</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-code text-blue-500 mr-2"></i> Frontend</h3>
+                    <p class="text-sm text-slate-600">TypeScript, Vue 3, React, Ionic, Tailwind, Storybook, UI-Komponenten.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-mobile-alt text-teal-500 mr-2"></i> Mobile</h3>
+                    <p class="text-sm text-slate-600">Capacitor, Native Plugins, Swift, Kotlin, Java, React Native (Prototyping).</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-robot text-purple-500 mr-2"></i> KI & MCP</h3>
+                    <p class="text-sm text-slate-600">Model Context Protocol, Agenten-Orchestrierung, Prompt Engineering, Skill-Entwicklung.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-vial text-red-500 mr-2"></i> Qualität</h3>
+                    <p class="text-sm text-slate-600">Vitest, Cypress, Appium, Sentry (Produktionsmonitoring & Triage).</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-cogs text-orange-500 mr-2"></i> DevOps</h3>
+                    <p class="text-sm text-slate-600">GitLab CI/CD, Fastlane, Docker, Appflow, pnpm Workspaces, Turborepo.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-plug text-green-500 mr-2"></i> Integrationen</h3>
+                    <p class="text-sm text-slate-600">Braze, Firebase, Tealium, mParticle, Adobe Analytics, Usercentrics.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section>
+            <h2 class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-8">Berufserfahrung</h2>
+            
+            <div class="space-y-12 border-l-2 border-slate-100 pl-8 ml-4">
+                
+                <!-- meinestadt.de -->
+                <div class="relative">
+                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                    <div class="flex flex-col md:flex-row md:justify-between mb-2">
+                        <h3 class="text-lg font-bold">meinestadt.de GmbH</h3>
+                        <span class="text-sm font-medium text-slate-500 italic">12/2023 – Heute</span>
+                    </div>
+                    <p class="text-blue-600 font-medium mb-4 italic">Frontend & Cross-Platform Mobile Developer</p>
+                    <ul class="text-slate-600 text-sm space-y-2 list-disc ml-4">
+                        <li>Migration der Pushkommunikation zu <strong>Braze</strong>; Entwicklung eines Capacitor-Plugins für iOS/Android.</li>
+                        <li>Automatisierung der Build-Prozesse mit <strong>Fastlane & Appflow</strong>; Erstellung eigener Docker-Build-Images.</li>
+                        <li>Anpassung der Android-App (SDK/NDK Updates, Safe Areas) und Stabilisierung der Deep-Link-Flows mit <strong>Branch</strong>.</li>
+                        <li>Standardisierung von Monitoring-Prozessen zur Fehleranalyse in Sentry.</li>
+                    </ul>
+                </div>
+
+                <!-- BitBurst -->
+                <div class="relative">
+                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-slate-300 border-4 border-white shadow-sm"></div>
+                    <div class="flex flex-col md:flex-row md:justify-between mb-2">
+                        <h3 class="text-lg font-bold">BitBurst GmbH</h3>
+                        <span class="text-sm font-medium text-slate-500 italic">02/2021 – 10/2023</span>
+                    </div>
+                    <p class="text-blue-600 font-medium mb-4 italic">Frontend & Cross-Platform Mobile Developer</p>
+                    <ul class="text-slate-600 text-sm space-y-2 list-disc ml-4">
+                        <li>Entwicklung eines In-App-Browser-Plugins mit nativen WebViews (Swift/Java) für Poll Pay.</li>
+                        <li>Migration der Kern-Anwendung von <strong>Vue 2 auf Vue 3</strong>.</li>
+                        <li>Integration von mParticle zur Nutzersegmentierung und Implementierung biometrischer Authentifizierung.</li>
+                    </ul>
+                </div>
+
+                <!-- Apollo -->
+                <div class="relative">
+                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-slate-300 border-4 border-white shadow-sm"></div>
+                    <div class="flex flex-col md:flex-row md:justify-between mb-2">
+                        <h3 class="text-lg font-bold">Apollo-Optik GmbH & Co. KG</h3>
+                        <span class="text-sm font-medium text-slate-500 italic">11/2019 – 10/2020</span>
+                    </div>
+                    <p class="text-blue-600 font-medium mb-4 italic">Frontend Developer</p>
+                    <ul class="text-slate-600 text-sm space-y-2 list-disc ml-4">
+                        <li>Architekturverantwortung für Omnichannel E-Commerce mit <strong>React & Frontastic</strong>.</li>
+                        <li>Koordination externer Agenturen und Mentoring von Entwickler-Kandidaten.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- AI Projects -->
+        <section class="bg-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-xl">
+            <h2 class="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-6">Fokus: KI-gestützte Entwicklung</h2>
+            <div class="space-y-6 max-w-3xl">
+                <p class="text-slate-300">
+                    Innovative Nutzung von KI-Agenten zur Steigerung der Softwarequalität und Entwicklungsgeschwindigkeit bei meinestadt.de:
+                </p>
+                <ul class="grid grid-cols-1 gap-4 text-sm">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-blue-400 mt-1 mr-3"></i>
+                        <span>Entwicklung eines <strong>MCP-Servers</strong> für Projektregeln und Best-Practices.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-blue-400 mt-1 mr-3"></i>
+                        <span>Automatisierte <strong>Sentry-Fehleranalyse</strong> mit menschlichen Freigabegrenzen.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-blue-400 mt-1 mr-3"></i>
+                        <span>Skill-Bibliothek für automatisierte Accessibility-Checks und E2E-Testanalysen.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Footer Info -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 border-t pt-12">
+            <div>
+                <h2 class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-4">Ausbildung</h2>
+                <h3 class="font-bold">Technische Hochschule Deggendorf</h3>
+                <p class="text-slate-600">B.Sc. Wirtschaftsinformatik (2013)</p>
+                <p class="text-xs text-slate-500 mt-1 italic">Bachelorarbeit: Hadoop und Big Data</p>
+            </div>
+            <div>
+                <h2 class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-4">Sprachen</h2>
+                <div class="flex gap-6 text-sm">
+                    <div><span class="font-bold">Deutsch:</span> C2 Muttersprache</div>
+                    <div><span class="font-bold">Englisch:</span> C2 Muttersprache</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t py-8 mt-12 text-center text-slate-400 text-xs">
+        &copy; 2024 Gerrit Hoskins &bull; Entwickelt mit modernem Tech-Stack & KI-Unterstützung
+    </footer>
 
 </body>
 </html>
