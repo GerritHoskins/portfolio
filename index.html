@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerrit Hoskins | Frontend- und Mobile-Entwickler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #64748b;
+            --accent: #06b6d4;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #3b82f6;
+                --primary-dark: #60a5fa;
+                --primary-light: #93c5fd;
+                --secondary: #94a3b8;
+                --accent: #22d3ee;
+                --bg-primary: #0f172a;
+                --bg-secondary: #1e293b;
+                --bg-tertiary: #334155;
+                --text-primary: #f8fafc;
+                --text-secondary: #cbd5e1;
+                --text-muted: #94a3b8;
+                --border: #334155;
+                --shadow: 0 1px 3px rgba(0,0,0,0.3);
+                --shadow-lg: 0 10px 40px rgba(0,0,0,0.4);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            padding: 80px 0 60px;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .name {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .tagline {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .contact-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .contact-btn.primary {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .contact-btn.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .social-icon:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* About */
+        .about-content {
+            background: var(--bg-secondary);
+            padding: 32px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-badge {
+            padding: 10px 18px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .skill-badge:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--bg-tertiary);
+        }
+
+        .skill-category {
+            margin-bottom: 24px;
+        }
+
+        .skill-category-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.8rem;
+        }
+
+        /* Experience */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 40px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -36px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+        }
+
+        .timeline-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .company {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .duration {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .job-description {
+            list-style: none;
+        }
+
+        .job-description li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .job-description li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .project-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .project-context {
+            font-size: 0.85rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tech-tag {
+            padding: 4px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Education */
+        .education-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+        }
+
+        .education-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .education-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .education-info p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .education-year {
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Languages */
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+        }
+
+        .language-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .language-level {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 60px 0;
+            margin-top: 40px;
+        }
+
+        .contact-section .section-title {
+            color: white;
+        }
+
+        .contact-section .section-title::before {
+            background: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .contact-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .contact-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .contact-card-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 50%;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .contact-card-text {
+            color: white;
+        }
+
+        .contact-card-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .contact-card-value {
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* SVG Icons */
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .name {
+                font-size: 2.25rem;
+            }
+
+            .title {
+                font-size: 1.25rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 40px 0;
+            }
+
+            .timeline {
+                padding-left: 24px;
+            }
+
+            .timeline-item {
+                padding-bottom: 32px;
+            }
+
+            .education-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1 class="name">Gerrit Hoskins</h1>
+                <p class="title">Frontend- und Mobile-Entwickler</p>
+                <p class="tagline">Über zehn Jahre Erfahrung in Webanwendungen und plattformübergreifenden Apps. Technische Verantwortung von Architektur bis zur Analyse von Produktionsproblemen.</p>
+                
+                <div class="contact-links">
+                    <a href="mailto:gerrit.hoskins@gmail.com" class="contact-btn primary">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        E-Mail senden
+                    </a>
+                    <a href="tel:+4915737242300" class="contact-btn">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                        +49 1573 7242300
+                    </a>
+                </div>
+
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com/in/gerrit-hoskins/" target="_blank" class="social-icon" title="LinkedIn">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- About Section -->
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">Über mich</h2>
+                <div class="about-content">
+                    <p>Frontend- und Mobile-Entwickler mit über zehn Jahren Erfahrung in Webanwendungen und plattformübergreifenden Apps. Mein Schwerpunkt liegt auf TypeScript, Vue und Capacitor sowie nativen Integrationen für iOS und Android. Ich übernehme technische Verantwortung von Architektur und Implementierung bis zu automatisierten Tests, Releases und der Analyse von Produktionsproblemen. Ergänzend entwickle ich KI-gestützte Entwicklungswerkzeuge mit projektspezifischem Kontext, überprüfbaren Ergebnissen und klaren Freigabegrenzen.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <div class="container">
+                <h2 class="section-title">Technische Kenntnisse</h2>
+                
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Frontend</h3>
+                    <div class="skills-grid">
+                        <span class="skill-badge">TypeScript</span>
+                        <span class="skill-badge">JavaScript</span>
+                        <span class="skill-badge">Vue 3</span>
+                        <span class="skill-badge">React</span>
+                        <span class="skill-badge">Ionic</span>
+                        <span class="skill-badge">Tailwind</span>
+                        <span class="skill-badge">Bootstrap</span>
+                        <span class="skill-badge">Foundation</span>
+                        <span class="skill-badge">Storybook</span>
+                        <span class="skill-badge">Wiederverwendbare UI-Komponenten</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Mobile</h3>
+                    <div class="skills-grid">
+                        <span class="skill-badge">Capacitor</span>
+                        <span class="skill-badge">Native Plugins</span>
+                        <span class="skill-badge">WebViews</span>
+                        <span class="skill-badge">Swift</span>
+                        <span class="skill-badge">Kotlin</span>
+                        <span class="skill-badge">Java</span>
+                        <span class="skill-badge">React Native</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Integrationen & Dienste</h3>
+                    <div class="skills-grid">
+                        <span class="skill-badge">REST-APIs</span>
+                        <span class="skill-badge">Firebase</span>
+                        <span class="skill-badge">Braze</span>
+                        <span class="skill-badge">Tealium</span>
+                        <span class="skill-badge">mParticle</span>
+                        <span class="skill-badge">Adjust</span>
+                        <span class="skill-badge">Branch</span>
+                        <span class="skill-badge">Adobe Analytics</span>
+                        <span class="skill-badge">Usercentrics</span>
+                        <span class="skill-badge">Node.js</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">Qualität & Auslieferung</h3>
+                    <div class="skills-grid">
+                        <span class="skill-badge">Vitest</span>
+                        <span class="skill-badge">Cypress</span>
+                        <span class="skill-badge">Appium</span>
+                        <span class="skill-badge">Sentry</span>
+                        <span class="skill-badge">GitLab CI/CD</span>
+                        <span class="skill-badge">Docker</span>
+                        <span class="skill-badge">Fastlane</span>
+                        <span class="skill-badge">Appflow</span>
+                        <span class="skill-badge">pnpm Workspaces</span>
+                        <span class="skill-badge">Turborepo</span>
+                        <span class="skill-badge">Vite</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">KI-Werkzeuge</h3>
+                    <div class="skills-grid">
+                        <span class="skill-badge">Model Context Protocol (MCP)</span>
+                        <span class="skill-badge">Agenten-Entwicklung</span>
+                        <span class="skill-badge">Skill-Entwicklung</span>
+                        <span class="skill-badge">Multi-Agenten-Orchestrierung</span>
+                        <span class="skill-badge">Prompt Engineering</span>
+                        <span class="skill-badge">KI-unterstützte Code Reviews</span>
+                        <span class="skill-badge">LangSmith</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience">
+            <div class="container">
+                <h2 class="section-title">Berufserfahrung</h2>
+                <div class="timeline">
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-header">
+                            <div>
+                                <div class="job-title">Frontend & Cross-Platform Mobile Developer</div>
+                                <div class="company">meinestadt.de GmbH (remote)</div>
+                            </div>
+                            <div class="duration">Dezember 2023 - heute</div>
+                        </div>
+                        <ul class="job-description">
+                            <li>Verantwortete die Migration der Pushkommunikation von CleverPush zu Braze und entwickelte ein Capacitor-Plugin mit gemeinsamer, typierter TypeScript-Schnittstelle für iOS und Android.</li>
+                            <li>Entwickelte und refaktorisierte ein Capacitor-Plugin für Datei-Uploads mit nativen Implementierungen, Berechtigungsflüssen, plattformspezifischer Fehlerbehandlung und automatisierten Tests.</li>
+                            <li>Migrierte die Events-Domäne auf eine neue API-Version; eine Mapping-Schicht erhielt die bestehenden Schnittstellen für abhängige Module.</li>
+                            <li>Automatisierte Build- und Releaseabläufe mit GitLab CI/CD, Fastlane und Appflow, einschließlich Versionierung, IPA-Validierung, Entitlement- und APNs-Prüfungen sowie der Anbindung an die App Store Connect API.</li>
+                            <li>Überarbeitete die GitLab-CI/CD-Pipeline für Staging und Releases der iOS- und Android-App und erstellte dafür selbst gehostete, teils wiederverwendbare Docker-Images mit den Abhängigkeiten und Werkzeugen für Build, Signierung und Deployment.</li>
+                            <li>Passte die Android-App an neue Plattformanforderungen an, einschließlich SDK- und NDK-Updates, Edge-to-Edge-Layouts und Safe Areas.</li>
+                            <li>Entwickelte und stabilisierte Deep-Link- und Routing-Flows mit Capacitor und Branch für externe Links, gespeicherte Suchen und App-Starts.</li>
+                            <li>Integrierte und erweiterte Analytics- und Tracking-Anbindungen; standardisierte native Fehlercodes und dokumentierte Abläufe zur Analyse und Triage von Produktionsproblemen mit Sentry.</li>
+                            <li>Sicherte zentrale Funktionen und gemeinsame UI-Komponenten durch Unit- und End-to-End-Tests mit Vitest, Cypress und Appium; dokumentierte Entwicklungskonventionen als gemeinsame Grundlage für Implementierung und Reviews.</li>
+                            <li>Begleitete in den ersten Monaten als Mentor einen Kollegen beim Einstieg in Codebasis und Entwicklungsabläufe.</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-header">
+                            <div>
+                                <div class="job-title">Frontend & Cross-Platform Mobile Developer</div>
+                                <div class="company">BitBurst GmbH (remote)</div>
+                            </div>
+                            <div class="duration">Februar 2021 - Oktober 2023</div>
+                        </div>
+                        <ul class="job-description">
+                            <li>Entwickelte für Poll Pay ein anpassbares In-App-Browser-Plugin zur Einbindung externer Umfrageanbieter: gemeinsame TypeScript-Schnittstelle, native WebViews in Swift und Java sowie eine Werkzeugleiste mit Navigation und HTML-Overlays.</li>
+                            <li>Verantwortete die plattformübergreifende Umsetzung und Auslieferung neuer Produktfunktionen.</li>
+                            <li>Migrierte die Anwendung von Vue 2 auf Vue 3 und schuf damit die Grundlage für die weitere Wartung und Produktentwicklung.</li>
+                            <li>Integrierte mParticle zur Bereitstellung von Kundendaten für Segmentierung und gezielte Ansprache.</li>
+                            <li>Implementierte biometrische Authentifizierung als Bestandteil der Betrugsprävention.</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-header">
+                            <div>
+                                <div class="job-title">Frontend Developer</div>
+                                <div class="company">Apollo-Optik GmbH & Co. KG (Schwabach)</div>
+                            </div>
+                            <div class="duration">November 2019 - Oktober 2020</div>
+                        </div>
+                        <ul class="job-description">
+                            <li>Übernahm die technische Weiterentwicklung und Architekturverantwortung für ein Omnichannel-E-Commerce-Projekt mit Frontastic, React und TypeScript.</li>
+                            <li>Übersetzte Produktanforderungen in technische Lösungen und koordinierte deren Umsetzung im verteilten Entwicklungsteam.</li>
+                            <li>Koordinierte, bewertete und prüfte die Code-Arbeit einer externen Agentur und führte Auswahlgespräche mit Entwickler-Kandidaten; gab Einstellungsempfehlungen ab, aus denen 1 bis 2 Einstellungen hervorgingen.</li>
+                            <li>Entwickelte wiederverwendbare React-Muster, arbeitete an Zustandsverwaltung und Schnittstellenanbindungen und führte Code Reviews durch.</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-header">
+                            <div>
+                                <div class="job-title">Frontend Developer</div>
+                                <div class="company">ISO-Gruppe (Nürnberg)</div>
+                            </div>
+                            <div class="duration">April 2017 - September 2019</div>
+                        </div>
+                        <ul class="job-description">
+                            <li>Entwickelte Funktionen für das Buchungssystem von Sun Country Airlines sowie Erweiterungen für Magnolia Headless CMS mit Java, TypeScript und JavaScript; Zusammenarbeit mit verteilten Teams in Kanada.</li>
+                            <li>Verantwortete die Umsetzung von Anforderungen an die Barrierefreiheit des Buchungsportals nach WCAG; die Verbesserungen trugen zu einer Steigerung der monatlichen Neunutzer um etwa 7% bei.</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-header">
+                            <div>
+                                <div class="job-title">Fullstack Web Developer</div>
+                                <div class="company">Agentur triebwerk GmbH (Nürnberg)</div>
+                            </div>
+                            <div class="duration">November 2015 - Mai 2017</div>
+                        </div>
+                        <ul class="job-description">
+                            <li>Entwickelte wiederverwendbare Komponenten und Erweiterungen für TYPO3 und WordPress; begleitete Kundenwebsites von der Designumsetzung bis zur Veröffentlichung und Betreuung.</li>
+                            <li>Entwickelte mobile Anwendungen mit PhoneGap für kundenspezifische Marketingaktionen.</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-header">
+                            <div>
+                                <div class="job-title">Junior Web Developer</div>
+                                <div class="company">Agentur DROW GmbH (Nürnberg)</div>
+                            </div>
+                            <div class="duration">März 2014 - September 2015</div>
+                        </div>
+                        <ul class="job-description">
+                            <li>Erfasste Kundenanforderungen, schätzte Aufwände und beriet bei der Auswahl technischer Lösungen.</li>
+                            <li>Entwickelte und betreute TYPO3- und WordPress-Websites und schulte Kunden und Redakteure in der Inhaltspflege.</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-header">
+                            <div>
+                                <div class="job-title">Frontend Developer</div>
+                                <div class="company">Candor Technologies (Kapstadt, Südafrika)</div>
+                            </div>
+                            <div class="duration">Juni 2011 - Dezember 2011</div>
+                        </div>
+                        <ul class="job-description">
+                            <li>Erweiterte eine Plattform für individuell gestaltbare Visitenkarten um Designs und Konfigurationsfunktionen im Frontend und Backend mit JavaScript und C#.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title">Ausgewählte Projekte: KI-gestützte Entwicklung</h2>
+                <div class="projects-grid">
+                    
+                    <div class="project-card">
+                        <h3 class="project-title">MCP-Server für Coding-Assistenten</h3>
+                        <p class="project-context">meinestadt.de GmbH | 12/2023 - heute</p>
+                        <p class="project-description">Entwickelte einen MCP-Server, der Coding-Assistenten Projektregeln und bewährte Lösungsmuster für Implementierung und Code Reviews bereitstellt.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Model Context Protocol</span>
+                            <span class="tech-tag">KI-Integration</span>
+                            <span class="tech-tag">TypeScript</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <h3 class="project-title">Agenten-Skills Bibliothek</h3>
+                        <p class="project-context">meinestadt.de GmbH | 12/2023 - heute</p>
+                        <p class="project-description">Entwickelte eine wiederverwendbare Bibliothek aus Agenten-Skills und gemeinsamen Prompt-Bausteinen für Planung, Reviews, Qualitätsprüfungen, Barrierefreiheit und die Analyse fehlgeschlagener End-to-End-Tests.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Multi-Agenten-Orchestrierung</span>
+                            <span class="tech-tag">Prompt Engineering</span>
+                            <span class="tech-tag">Cypress</span>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <h3 class="project-title">Sentry-Fehleranalyse Workflow</h3>
+                        <p class="project-context">meinestadt.de GmbH | 12/2023 - heute</p>
+                        <p class="project-description">Entwickelte einen Workflow zur Analyse von Sentry-Fehlern und Vorbereitung von Korrektionen mit menschlicher Prüfung und Freigabe. Überführte geprüfte Erkenntnisse aus Entwicklungsaufgaben in wiederverwendbare Projektregeln und Abläufe.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Sentry</span>
+                            <span class="tech-tag">Automatisierung</span>
+                            <span class="tech-tag">LangSmith</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education">
+            <div class="container">
+                <h2 class="section-title">Ausbildung</h2>
+                
+                <div class="education-item">
+                    <div class="education-info">
+                        <h3>Technische Hochschule Deggendorf</h3>
+                        <p>Bachelor of Science in Wirtschaftsinformatik</p>
+                    </div>
+                    <div class="education-year">Abschluss: 01/2013</div>
+                </div>
+
+                <div class="education-item">
+                    <div class="education-info">
+                        <h3>Bachelorarbeit: Hadoop und Big Data</h3>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Languages Section -->
+        <section id="languages">
+            <div class="container">
+                <h2 class="section-title">Sprachkenntnisse</h2>
+                <div class="languages-grid">
+                    <div class="language-item">
+                        <span class="language-name">Deutsch</span>
+                        <span class="language-level">C2 (Muttersprache)</span>
+                    </div>
+                    <div class="language-item">
+                        <span class="language-name">Englisch</span>
+                        <span class="language-level">C2 (Verhandlungssicher)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Kontakt</h2>
+            <div class="contact-grid">
+                <a href="mailto:gerrit.hoskins@gmail.com" class="contact-card">
+                    <div class="contact-card-icon">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </div>
+                    <div class="contact-card-text">
+                        <div class="contact-card-label">E-Mail</div>
+                        <div class="contact-card-value">gerrit.hoskins@gmail.com</div>
+                    </div>
+                </a>
+
+                <a href="tel:+4915737242300" class="contact-card">
+                    <div class="contact-card-icon">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                    </div>
+                    <div class="contact-card-text">
+                        <div class="contact-card-label">Telefon</div>
+                        <div class="contact-card-value">+49 1573 7242300</div>
+                    </div>
+                </a>
+
+                <a href="https://www.linkedin.com/in/gerrit-hoskins/" target="_blank" class="contact-card">
+                    <div class="contact-card-icon">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                    </div>
+                    <div class="contact-card-text">
+                        <div class="contact-card-label">LinkedIn</div>
+                        <div class="contact-card-value">gerrit-hoskins</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Gerrit Hoskins. Alle Rechte vorbehalten.</p>
+        </div>
+    </footer>
+</body>
+</html>
