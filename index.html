@@ -3,177 +3,685 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerrit Hoskins | Frontend- & Mobile-Entwickler</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Gerrit Hoskins | Frontend- und Mobile-Entwickler</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-text { background: linear-gradient(90deg, #3b82f6, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .section-card { transition: transform 0.2s ease-in-out; }
-        .section-card:hover { transform: translateY(-2px); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #0f172a;
+            --accent: #06b6d4;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 100px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            opacity: 0.5;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            animation: fadeInDown 1s ease;
+        }
+
+        header .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.95;
+            margin-bottom: 20px;
+            position: relative;
+            animation: fadeInDown 1s ease 0.2s both;
+        }
+
+        header .location {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            position: relative;
+            animation: fadeInDown 1s ease 0.4s both;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            position: relative;
+            animation: fadeInDown 1s ease 0.6s both;
+        }
+
+        .contact-links a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .contact-links a:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+
+        section:nth-child(even) {
+            background: var(--bg-alt);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            color: var(--secondary);
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Profile */
+        .profile-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .skill-category h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill-category h3::before {
+            content: '●';
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: var(--bg-alt);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text);
+            border: 1px solid #e5e7eb;
+        }
+
+        /* Experience */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            margin-left: 40px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -48px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .timeline-header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .timeline-header h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .timeline-header .company {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .timeline-header ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .timeline-header li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .timeline-header li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .project-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* Education */
+        .education-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .education-card h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .education-card .degree {
+            color: var(--text);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .education-card .date {
+            color: var(--text-light);
+        }
+
+        .education-card .thesis {
+            margin-top: 15px;
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        /* Languages */
+        .languages {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .language-item {
+            background: white;
+            padding: 30px 50px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .language-item strong {
+            display: block;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .language-item span {
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            header .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .timeline::before {
+                left: 10px;
+            }
+
+            .timeline-item {
+                margin-left: 40px;
+            }
+
+            .timeline-item::before {
+                left: -38px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 leading-relaxed">
-
-    <!-- Header / Hero -->
-    <header class="bg-white border-b sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>
-                <h1 class="text-2xl font-bold tracking-tight">Gerrit Hoskins</h1>
-                <p class="text-blue-600 font-medium">Frontend- & Mobile-Entwickler</p>
-            </div>
-            <div class="flex flex-wrap justify-center gap-4 text-sm text-slate-600">
-                <a href="mailto:gerrit.hoskins@gmail.com" class="hover:text-blue-600"><i class="fas fa-envelope mr-1"></i> gerrit.hoskins@gmail.com</a>
-                <a href="https://pixeltronic.dev" target="_blank" class="hover:text-blue-600"><i class="fas fa-globe mr-1"></i> pixeltronic.dev</a>
-                <a href="https://www.linkedin.com/in/gerrit-hoskins/" target="_blank" class="hover:text-blue-600"><i class="fab fa-linkedin mr-1"></i> LinkedIn</a>
-                <span class="hidden md:inline text-slate-300">|</span>
-                <span><i class="fas fa-map-marker-alt mr-1"></i> Nürnberg, DE</span>
+<body>
+    <header>
+        <div class="container">
+            <h1>Gerrit Hoskins</h1>
+            <p class="subtitle">Frontend- und Mobile-Entwickler</p>
+            <p class="location">Nürnberg, Deutschland</p>
+            <div class="contact-links">
+                <a href="mailto:gerrit.hoskins@gmail.com">📧 gerrit.hoskins@gmail.com</a>
+                <a href="tel:+4915737242300">📱 +49 1573 7242300</a>
+                <a href="https://www.linkedin.com/in/gerrit-hoskins/" target="_blank">💼 LinkedIn</a>
+                <a href="https://pixeltronic.dev" target="_blank">🌐 pixeltronic.dev</a>
             </div>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-6 py-12 space-y-16">
-        
-        <!-- Profile -->
-        <section>
-            <h2 class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-4">Profil</h2>
-            <p class="text-xl text-slate-700 font-light max-w-3xl">
-                Über zehn Jahre Erfahrung in Webanwendungen und plattformübergreifenden Apps. Schwerpunkt auf <span class="font-semibold text-slate-900">TypeScript, Vue und Capacitor</span>. Ich kombiniere technisches Architektur-Know-how mit moderner KI-gestützter Entwicklung (MCP), um effiziente und wartbare Lösungen zu schaffen.
+    <section id="profile">
+        <div class="container">
+            <h2>Profil</h2>
+            <p class="profile-content">
+                Frontend- und Mobile-Entwickler mit über zehn Jahren Erfahrung in Webanwendungen und plattformübergreifenden Apps. Mein Schwerpunkt liegt auf TypeScript, Vue und Capacitor sowie nativen Integrationen für iOS und Android. Ich übernehme technische Verantwortung von Architektur und Implementierung bis zu automatisierten Tests, Releases und der Analyse von Produktionsproblemen. Ergänzend entwickle ich KI-gestützte Entwicklungswerkzeuge mit projektspezifischem Kontext, überprüfbaren Ergebnissen und klaren Freigabegrenzen.
             </p>
-        </section>
+        </div>
+    </section>
 
-        <!-- Skills Grid -->
-        <section>
-            <h2 class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-6">Technische Kenntnisse</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-code text-blue-500 mr-2"></i> Frontend</h3>
-                    <p class="text-sm text-slate-600">TypeScript, Vue 3, React, Ionic, Tailwind, Storybook, UI-Komponenten.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-mobile-alt text-teal-500 mr-2"></i> Mobile</h3>
-                    <p class="text-sm text-slate-600">Capacitor, Native Plugins, Swift, Kotlin, Java, React Native (Prototyping).</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-robot text-purple-500 mr-2"></i> KI & MCP</h3>
-                    <p class="text-sm text-slate-600">Model Context Protocol, Agenten-Orchestrierung, Prompt Engineering, Skill-Entwicklung.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-vial text-red-500 mr-2"></i> Qualität</h3>
-                    <p class="text-sm text-slate-600">Vitest, Cypress, Appium, Sentry (Produktionsmonitoring & Triage).</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-cogs text-orange-500 mr-2"></i> DevOps</h3>
-                    <p class="text-sm text-slate-600">GitLab CI/CD, Fastlane, Docker, Appflow, pnpm Workspaces, Turborepo.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                    <h3 class="font-bold mb-3 flex items-center"><i class="fas fa-plug text-green-500 mr-2"></i> Integrationen</h3>
-                    <p class="text-sm text-slate-600">Braze, Firebase, Tealium, mParticle, Adobe Analytics, Usercentrics.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience -->
-        <section>
-            <h2 class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-8">Berufserfahrung</h2>
-            
-            <div class="space-y-12 border-l-2 border-slate-100 pl-8 ml-4">
-                
-                <!-- meinestadt.de -->
-                <div class="relative">
-                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
-                    <div class="flex flex-col md:flex-row md:justify-between mb-2">
-                        <h3 class="text-lg font-bold">meinestadt.de GmbH</h3>
-                        <span class="text-sm font-medium text-slate-500 italic">12/2023 – Heute</span>
+    <section id="skills">
+        <div class="container">
+            <h2>Technische Kenntnisse</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Frontend</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Vue 3</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Ionic</span>
+                        <span class="skill-tag">Tailwind</span>
+                        <span class="skill-tag">Bootstrap</span>
+                        <span class="skill-tag">Storybook</span>
                     </div>
-                    <p class="text-blue-600 font-medium mb-4 italic">Frontend & Cross-Platform Mobile Developer</p>
-                    <ul class="text-slate-600 text-sm space-y-2 list-disc ml-4">
-                        <li>Migration der Pushkommunikation zu <strong>Braze</strong>; Entwicklung eines Capacitor-Plugins für iOS/Android.</li>
-                        <li>Automatisierung der Build-Prozesse mit <strong>Fastlane & Appflow</strong>; Erstellung eigener Docker-Build-Images.</li>
-                        <li>Anpassung der Android-App (SDK/NDK Updates, Safe Areas) und Stabilisierung der Deep-Link-Flows mit <strong>Branch</strong>.</li>
-                        <li>Standardisierung von Monitoring-Prozessen zur Fehleranalyse in Sentry.</li>
-                    </ul>
                 </div>
-
-                <!-- BitBurst -->
-                <div class="relative">
-                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-slate-300 border-4 border-white shadow-sm"></div>
-                    <div class="flex flex-col md:flex-row md:justify-between mb-2">
-                        <h3 class="text-lg font-bold">BitBurst GmbH</h3>
-                        <span class="text-sm font-medium text-slate-500 italic">02/2021 – 10/2023</span>
+                <div class="skill-category">
+                    <h3>Mobile</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Capacitor</span>
+                        <span class="skill-tag">Native Plugins</span>
+                        <span class="skill-tag">WebViews</span>
+                        <span class="skill-tag">Swift</span>
+                        <span class="skill-tag">Kotlin</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">React Native</span>
                     </div>
-                    <p class="text-blue-600 font-medium mb-4 italic">Frontend & Cross-Platform Mobile Developer</p>
-                    <ul class="text-slate-600 text-sm space-y-2 list-disc ml-4">
-                        <li>Entwicklung eines In-App-Browser-Plugins mit nativen WebViews (Swift/Java) für Poll Pay.</li>
-                        <li>Migration der Kern-Anwendung von <strong>Vue 2 auf Vue 3</strong>.</li>
-                        <li>Integration von mParticle zur Nutzersegmentierung und Implementierung biometrischer Authentifizierung.</li>
-                    </ul>
                 </div>
-
-                <!-- Apollo -->
-                <div class="relative">
-                    <div class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-slate-300 border-4 border-white shadow-sm"></div>
-                    <div class="flex flex-col md:flex-row md:justify-between mb-2">
-                        <h3 class="text-lg font-bold">Apollo-Optik GmbH & Co. KG</h3>
-                        <span class="text-sm font-medium text-slate-500 italic">11/2019 – 10/2020</span>
+                <div class="skill-category">
+                    <h3>Integrationen & Dienste</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">REST-APIs</span>
+                        <span class="skill-tag">Firebase</span>
+                        <span class="skill-tag">Braze</span>
+                        <span class="skill-tag">Tealium</span>
+                        <span class="skill-tag">mParticle</span>
+                        <span class="skill-tag">Adjust</span>
+                        <span class="skill-tag">Branch</span>
+                        <span class="skill-tag">Node.js</span>
                     </div>
-                    <p class="text-blue-600 font-medium mb-4 italic">Frontend Developer</p>
-                    <ul class="text-slate-600 text-sm space-y-2 list-disc ml-4">
-                        <li>Architekturverantwortung für Omnichannel E-Commerce mit <strong>React & Frontastic</strong>.</li>
-                        <li>Koordination externer Agenturen und Mentoring von Entwickler-Kandidaten.</li>
-                    </ul>
                 </div>
-
-            </div>
-        </section>
-
-        <!-- AI Projects -->
-        <section class="bg-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-xl">
-            <h2 class="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-6">Fokus: KI-gestützte Entwicklung</h2>
-            <div class="space-y-6 max-w-3xl">
-                <p class="text-slate-300">
-                    Innovative Nutzung von KI-Agenten zur Steigerung der Softwarequalität und Entwicklungsgeschwindigkeit bei meinestadt.de:
-                </p>
-                <ul class="grid grid-cols-1 gap-4 text-sm">
-                    <li class="flex items-start">
-                        <i class="fas fa-check-circle text-blue-400 mt-1 mr-3"></i>
-                        <span>Entwicklung eines <strong>MCP-Servers</strong> für Projektregeln und Best-Practices.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-check-circle text-blue-400 mt-1 mr-3"></i>
-                        <span>Automatisierte <strong>Sentry-Fehleranalyse</strong> mit menschlichen Freigabegrenzen.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-check-circle text-blue-400 mt-1 mr-3"></i>
-                        <span>Skill-Bibliothek für automatisierte Accessibility-Checks und E2E-Testanalysen.</span>
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Footer Info -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 border-t pt-12">
-            <div>
-                <h2 class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-4">Ausbildung</h2>
-                <h3 class="font-bold">Technische Hochschule Deggendorf</h3>
-                <p class="text-slate-600">B.Sc. Wirtschaftsinformatik (2013)</p>
-                <p class="text-xs text-slate-500 mt-1 italic">Bachelorarbeit: Hadoop und Big Data</p>
-            </div>
-            <div>
-                <h2 class="text-sm font-semibold uppercase tracking-widest text-slate-400 mb-4">Sprachen</h2>
-                <div class="flex gap-6 text-sm">
-                    <div><span class="font-bold">Deutsch:</span> C2 Muttersprache</div>
-                    <div><span class="font-bold">Englisch:</span> C2 Muttersprache</div>
+                <div class="skill-category">
+                    <h3>Qualität & Auslieferung</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Vitest</span>
+                        <span class="skill-tag">Cypress</span>
+                        <span class="skill-tag">Appium</span>
+                        <span class="skill-tag">Sentry</span>
+                        <span class="skill-tag">GitLab CI/CD</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Fastlane</span>
+                        <span class="skill-tag">TurboRepo</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>KI-Werkzeuge</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Model Context Protocol (MCP)</span>
+                        <span class="skill-tag">Agenten-Entwicklung</span>
+                        <span class="skill-tag">Multi-Agenten-Orchestrierung</span>
+                        <span class="skill-tag">Prompt Engineering</span>
+                        <span class="skill-tag">LangSmith</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Arbeitsweise</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Testgetriebene Entwicklung</span>
+                        <span class="skill-tag">Agentengestützte Implementierung</span>
+                        <span class="skill-tag">KI-unterstützte Code Reviews</span>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-    </main>
+    <section id="experience">
+        <div class="container">
+            <h2>Berufserfahrung</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <h3>Frontend & Cross-Platform Mobile Developer</h3>
+                        <p class="company">meinestadt.de GmbH (remote) | Dezember 2023 - heute</p>
+                        <ul>
+                            <li>Migration der Pushkommunikation von CleverPush zu Braze mit Capacitor-Plugin für iOS und Android</li>
+                            <li>Capacitor-Plugin für Datei-Uploads mit nativen Implementierungen und automatisierten Tests</li>
+                            <li>Automatisierte Build- und Releaseabläufe mit GitLab CI/CD, Fastlane und Appflow</li>
+                            <li>Überarbeitung der GitLab-CI/CD-Pipeline mit selbst gehosteten Docker-Images</li>
+                            <li>Anpassung der Android-App an neue Plattformanforderungen (SDK/NDK-Updates, Edge-to-Edge-Layouts)</li>
+                            <li>Deep-Link- und Routing-Flows mit Capacitor und Branch</li>
+                            <li>Integration von Analytics- und Tracking-Anbindungen (Sentry, Braze)</li>
+                            <li>Unit- und End-to-End-Tests mit Vitest, Cypress und Appium</li>
+                            <li>Mentor eines Kollegen beim Einstieg in Codebasis und Entwicklungsabläufe</li>
+                        </ul>
+                    </div>
+                </div>
 
-    <footer class="bg-white border-t py-8 mt-12 text-center text-slate-400 text-xs">
-        &copy; 2024 Gerrit Hoskins &bull; Entwickelt mit modernem Tech-Stack & KI-Unterstützung
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <h3>Frontend & Cross-Platform Mobile Developer</h3>
+                        <p class="company">BitBurst GmbH (remote) | Februar 2021 - Oktober 2023</p>
+                        <ul>
+                            <li>Entwicklung eines anpassbaren In-App-Browser-Plugins für externe Umfrageanbieter</li>
+                            <li>Plattformübergreifende Umsetzung und Auslieferung neuer Produktfunktionen</li>
+                            <li>Migration der Anwendung von Vue 2 auf Vue 3</li>
+                            <li>Integration von mParticle für Kundendaten und Segmentierung</li>
+                            <li>Implementierung biometrischer Authentifizierung zur Betrugsprävention</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <h3>Frontend Developer</h3>
+                        <p class="company">Apollo-Optik GmbH & Co. KG (Schwabach) | November 2019 - Oktober 2020</p>
+                        <ul>
+                            <li>Technische Weiterentwicklungung eines Omnichannel-E-Commerce-Projekts mit Frontastic, React und TypeScript</li>
+                            <li>Koordination und Prüfung der Code-Arbeit einer externen Agentur</li>
+                            <li>Entwicklung wiederverwendbarer React-Muster und Zustandsverwaltung</li>
+                            <li>Durchführung von Auswahlgesprächen mit Entwickler-Kandidaten</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <h3>Frontend Developer</h3>
+                        <p class="company">ISO-Gruppe (Nürnberg) | April 2017 - September 2019</p>
+                        <ul>
+                            <li>Entwicklung für das Buchungssystem von Sun Country Airlines mit Java, TypeScript und JavaScript</li>
+                            <li>Umsetzung von Barrierefreiheitsanforderungen nach WCAG (+7% monatliche Neunutzer)</li>
+                            <li>Zusammenarbeit mit verteilten Teams in Kanada</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <h3>Fullstack Web Developer</h3>
+                        <p class="company">Agentur triebwerk GmbH (Nürnberg) | November 2015 - Mai 2017</p>
+                        <ul>
+                            <li>Entwicklung wiederverwendbarer Komponenten für TYPO3 und WordPress</li>
+                            <li>Mobile Anwendungen mit PhoneGap für Marketingaktionen</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <h3>Junior Web Developer</h3>
+                        <p class="company">Agentur DROW GmbH (Nürnberg) | März 2014 - September 2015</p>
+                        <ul>
+                            <li>Entwicklung und Betreuung von TYPO3- und WordPress-Websites</li>
+                            <li>Kundenberatung und Schulung in der Inhaltspflege</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <h3>Frontend Developer</h3>
+                        <p class="company">Candor Technologies (Kapstadt, Südafrika) | Juni 2011 - Dezember 2011</p>
+                        <ul>
+                            <li>Erweiterung einer Visitenkarten-Plattform mit JavaScript und C#</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2>Ausgewählte KI-Projekte</h2>
+            <p style="text-align: center; color: var(--text-light); margin-bottom: 30px;">Projekte bei meinestadt.de GmbH (12/2023 - heute)</p>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>MCP-Server für Coding-Assistenten</h3>
+                    <p>Entwicklung eines Model Context Protocol Servers, der Coding-Assistenten Projektregeln und bewährte Lösungsmuster für Implementierung und Code Reviews bereitstellt.</p>
+                </div>
+                <div class="project-card">
+                    <h3>Agenten-Skills Bibliothek</h3>
+                    <p>Entwicklung einer wiederverwendbaren Bibliothek aus Agenten-Skills und gemeinsamen Prompt-Bausteinen für Planung, Reviews, Qualitätsprüfungen, Barrierefreiheit und die Analyse fehlgeschlagener End-to-End-Tests.</p>
+                </div>
+                <div class="project-card">
+                    <h3>Sentry-Fehleranalyse Workflow</h3>
+                    <p>Entwicklung eines Workflows zur Analyse von Sentry-Fehlern und Vorbereitung von Korrektionen mit menschlicher Prüfung und Freigabe. Überführung geprüfter Erkenntnisse in wiederverwendbare Projektregeln.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <div class="container">
+            <h2>Ausbildung</h2>
+            <div class="education-card">
+                <h3>Technische Hochschule Deggendorf</h3>
+                <p class="degree">Bachelor of Science in Wirtschaftsinformatik</p>
+                <p class="date">Abschluss: Januar 2013</p>
+                <p class="thesis">Bachelorarbeit: Hadoop und Big Data</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="languages">
+        <div class="container">
+            <h2>Sprachkenntnisse</h2>
+            <div class="languages">
+                <div class="language-item">
+                    <strong>Deutsch</strong>
+                    <span>C2 (Muttersprache)</span>
+                </div>
+                <div class="language-item">
+                    <strong>Englisch</strong>
+                    <span>C2 (Muttersprache)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Gerrit Hoskins | <a href="mailto:gerrit.hoskins@gmail.com">gerrit.hoskins@gmail.com</a> | <a href="https://pixeltronic.dev" target="_blank">pixeltronic.dev</a></p>
+        </div>
     </footer>
-
 </body>
 </html>
