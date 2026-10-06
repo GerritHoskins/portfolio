@@ -1,0 +1,12 @@
+{
+  "name": "gerrit-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio build system",
+  "type": "module",
+  "scripts": {
+    "build:portfolio": "node build-portfolio.js"
+  },
+  "dependencies": {
+    "marked": "^11.1.1"
+  }
+}
