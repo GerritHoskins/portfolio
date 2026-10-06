@@ -1,9 +1,5 @@
-/* Styles for markdown-generated CV content, matching styles.css */
-.cv-content h1 { font-size: 1.5rem; font-weight: 700; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border, #e5e7eb); }
-.cv-content h1:first-child { margin-top: 0; }
-.cv-content h2, .cv-content h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
-.cv-content p { margin-bottom: 1rem; }
-.cv-content ul { margin: 0 0 1rem 1.5rem; }
-.cv-content li { margin-bottom: 0.5rem; }
-.cv-content .center { text-align: center; }
-.cv-content a { color: var(--primary); }
+/*
+ * Legacy CV stylesheet retained for compatibility with older local exports.
+ * The portfolio no longer renders Markdown CV content. Current page styles
+ * live in styles.css, which is the only stylesheet linked by the template.
+ */

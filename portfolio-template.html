@@ -1,40 +1,125 @@
-<!DOCTYPE html>
-<html lang="de">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G.K. Hoskins | Frontend- und Mobile-Entwickler</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="cv-content.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eae0cf">
+  <meta name="description" content="Portfolio of G.K. Hoskins, a frontend and cross-platform mobile developer building thoughtful web and app experiences.">
+  <title>G.K.  -  Frontend &amp; Mobile Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1>G.K. Hoskins</h1>
-            <div class="tagline">Frontend- und Mobile-Entwickler</div>
-            <div class="meta">
-                <span>📍 Nürnberg, Deutschland</span>
-                <span>🎯 12+ Jahre Erfahrung</span>
-            </div>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/gerrit-hoskins/" target="_blank" rel="noopener noreferrer" title="LinkedIn">in</a>
-                <a href="mailto:pixeltastics@gmail.com" title="E-Mail">✉</a>
-            </div>
-        </header>
-        <main class="section cv-content">
-            {CONTENT}
-        </main>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="G.K. Hoskins, home">GH<span>.</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#work">Selected work</a>
+      <a href="#experience">Experience</a>
+      <a class="nav-contact" href="#contact">Get in touch <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
 
-        <!-- Contact CTA -->
-        <div class="contact-section">
-            <h3 style="color: var(--text); margin-bottom: 0.5rem;">Kontakt aufnehmen</h3>
-            <p style="color: var(--text-light); margin-bottom: 1rem;">Interesse an einer Zusammenarbeit? Melden Sie sich gerne!</p>
-            <a href="mailto:pixeltastics@gmail.com" class="contact-button">E-Mail senden</a>
-            <br>
-            <a href="https://www.linkedin.com/in/gerrit-hoskins/" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: 1rem; color: var(--primary); text-decoration: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Mein LinkedIn-Profil besuchen</a>
+  <main id="main">
+    <section class="hero section-wrap" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Nuremberg, Germany <span class="eyebrow-divider">/</span> Product-focused engineering</p>
+        <h1 id="hero-title">I build digital products that feel <em>at home</em> on every screen.</h1>
+        <p class="hero-intro">Frontend and cross-platform mobile developer with 13+ years of experience turning product ideas into dependable web, iOS and Android experiences.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#work">Explore selected work <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="mailto:pixeltastics@gmail.com">Let’s talk <span aria-hidden="true">↗</span></a>
         </div>
-    </div>
+        <div class="hero-meta" aria-label="Focus areas">
+          <span>Frontend design</span><span>Product engineering</span><span>Cross-platform mobile</span><span>Developer enablement</span>
+        </div>
+      </div>
+      <div class="hero-art" aria-label="A product system connecting web, iOS, Android and quality">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="orbit orbit-three"></div>
+        <div class="orbit-center"><span class="orbit-mark">GH</span><span>One thoughtful<br>product system</span></div>
+        <div class="orbit-node node-web"><span class="node-icon">⌘</span><span>Web</span></div>
+        <div class="orbit-node node-ios"><span class="node-icon">◉</span><span>iOS</span></div>
+        <div class="orbit-node node-android"><span class="node-icon">△</span><span>Android</span></div>
+        <div class="orbit-node node-quality"><span class="node-icon">✓</span><span>Quality</span></div>
+        <span class="art-caption">DESIGN · ENGINEERING · DELIVERY</span>
+      </div>
+      <div class="hero-rule"><span>01 / A little about how I work</span><span>Scroll to explore ↓</span></div>
+    </section>
+
+    <section class="intro section-wrap" aria-labelledby="intro-title">
+      <p class="section-kicker">The through line</p>
+      <div class="intro-content">
+        <h2 id="intro-title">Good software is a team sport - and the details matter.</h2>
+        <div class="intro-text">
+          <p>I work across the seams between product design, web engineering and native mobile. That means reusable interfaces, clear platform boundaries and the testing and release work that helps a product stay reliable after it ships.</p>
+          <p>More recently, I’ve built project-aware AI workflows that give development tools useful context while keeping review and release decisions with people.</p>
+        </div>
+      </div>
+      <div class="principles" aria-label="Working principles">
+        <div><span class="principle-index">01</span><strong>Build for real use</strong><span>Accessible UI, native details and product needs in the same conversation.</span></div>
+        <div><span class="principle-index">02</span><strong>Make change safer</strong><span>Tests, observability and release automation built into the workflow.</span></div>
+        <div><span class="principle-index">03</span><strong>Share what works</strong><span>Documented patterns and tools that help the whole team move forward.</span></div>
+      </div>
+    </section>
+
+    <section class="work section-wrap" id="work" aria-labelledby="work-title">
+      <div class="section-heading">
+        <div><p class="section-kicker">Selected work <span>02</span></p><h2 id="work-title">A few things I’ve helped make.</h2></div>
+        <p>Product work across design systems, mobile integrations and AI-supported development.</p>
+      </div>
+      <article class="project project-featured">
+        <div class="project-visual visual-system" aria-hidden="true">
+          <div class="system-window"><div class="window-top"><i></i><i></i><i></i><span>MATEDS / COMPONENTS</span></div><div class="system-canvas"><div class="sample-label">BUTTON / PRIMARY</div><div class="sample-button">Continue <span>↗</span></div><div class="sample-token"><b>COLOR / BRAND</b><span><i></i>blue-600 <small>#547792</small></span></div><div class="sample-lines"><i></i><i></i><i></i></div></div></div>
+          <span class="visual-note">FIGMA TOKENS → CODE → STORYBOOK</span>
+        </div>
+        <div class="project-copy"><p class="project-type">01 / DESIGN SYSTEM</p><h3>A shared language for product UI.</h3><p>Helped build MateDS, an internal design system connected to Figma and design tokens. Created and maintained accessible components, documented them in Storybook, and supported their adoption in the app.</p><ul class="tag-list"><li>Design tokens</li><li>Accessibility</li><li>Storybook</li><li>Figma MCP</li></ul><p class="project-context">meinestadt.de · Product design &amp; engineering</p></div>
+      </article>
+      <div class="project-grid">
+        <article class="project project-card">
+          <div class="project-visual visual-mobile" aria-hidden="true"><div class="phone phone-back"><div class="phone-speaker"></div><div class="phone-ui ui-muted"><span class="ui-bar"></span><span class="ui-card"></span><span class="ui-card short"></span></div></div><div class="phone phone-front"><div class="phone-speaker"></div><div class="phone-ui"><span class="ui-label">YOUR SURVEYS</span><span class="ui-card"></span><span class="ui-card"></span><span class="ui-tab"></span></div></div><span class="mobile-badge">iOS <b>↔</b> Android</span></div>
+          <div class="project-copy"><p class="project-type">02 / CROSS-PLATFORM MOBILE</p><h3>Native integrations, one shared interface.</h3><p>Built Capacitor plugins for push messaging and file uploads with a typed TypeScript API and native iOS and Android implementations. For Poll Pay, created an in-app browser plugin for external survey providers with URL allowlisting.</p><ul class="tag-list"><li>Capacitor</li><li>TypeScript</li><li>Swift</li><li>Java</li></ul><p class="project-context">meinestadt.de &amp; BitBurst · Mobile product engineering</p></div>
+        </article>
+        <article class="project project-card">
+          <div class="project-visual visual-ai" aria-hidden="true"><div class="flow-card flow-input"><span class="flow-icon">⌘</span><b>Project context</b><small>Rules · patterns · docs</small></div><div class="flow-line"><i></i><i></i><i></i></div><div class="flow-card flow-agent"><span class="flow-icon">✳</span><b>Custom skills</b><small>Plan · review · verify</small></div><div class="flow-approval"><span>Human review</span><b>✓</b></div><span class="visual-note">CONTEXT IN · VERIFIED WORK OUT</span></div>
+          <div class="project-copy"><p class="project-type">03 / DEVELOPER ENABLEMENT</p><h3>Useful AI workflows with people in control.</h3><p>Developed an MCP server that supplies coding assistants with project rules and proven patterns, plus reusable agent skills for planning, code review, accessibility and quality checks. A Sentry workflow prepares fixes for human review and approval.</p><ul class="tag-list"><li>MCP</li><li>Custom agent skills</li><li>Human approval</li><li>LangSmith</li></ul><p class="project-context">meinestadt.de · Internal development workflows</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="capabilities section-wrap" aria-labelledby="capabilities-title">
+      <div class="section-heading"><div><p class="section-kicker">How I contribute <span>03</span></p><h2 id="capabilities-title">From first component to shipped release.</h2></div><p>Hands-on product engineering, with care for what happens before and after the code is written.</p></div>
+      <div class="capability-grid">
+        <article><span class="capability-icon">◫</span><h3>Web &amp; product UI</h3><p>TypeScript, JavaScript, Vue and React. Reusable components, thoughtful states and accessible interfaces.</p></article>
+        <article><span class="capability-icon">▣</span><h3>iOS &amp; Android</h3><p>Ionic and Capacitor apps with native plugins, platform-specific behavior and shared TypeScript APIs.</p></article>
+        <article><span class="capability-icon">↗</span><h3>Integrations &amp; delivery</h3><p>APIs, app services, automated tests, CI/CD, release pipelines and production issue analysis with Sentry.</p></article>
+        <article><span class="capability-icon">✳</span><h3>AI-supported development</h3><p>MCP-based project context, custom agent skills and reviewable workflows with clear human approval.</p></article>
+      </div>
+      <div class="toolbelt"><span>TOOLS I WORK WITH</span><p>TypeScript <i>·</i> Vue <i>·</i> React <i>·</i> Ionic <i>·</i> Capacitor <i>·</i> Swift <i>·</i> Kotlin <i>·</i> Vitest <i>·</i> Cypress <i>·</i> GitLab CI/CD <i>·</i> Fastlane <i>·</i> Sentry</p></div>
+    </section>
+
+    <section class="experience section-wrap" id="experience" aria-labelledby="experience-title">
+      <div class="section-heading"><div><p class="section-kicker">Experience <span>04</span></p><h2 id="experience-title">Built over time, across teams.</h2></div><p>Long-term product work, customer projects and platform transitions in Germany and South Africa.</p></div>
+      <ol class="timeline">
+        <li><span class="timeline-date">2023  -  NOW</span><div><h3>Frontend &amp; Cross-Platform Mobile Developer <span>· meinestadt.de</span></h3><p>Design system, native Capacitor integrations, API migration, CI/CD and AI-supported developer workflows.</p></div><span class="timeline-location">REMOTE</span></li>
+        <li><span class="timeline-date">2021  -  2023</span><div><h3>Frontend &amp; Cross-Platform Mobile Developer <span>· BitBurst</span></h3><p>Vue 2 to Vue 3 migration, in-app browser plugin with URL allowlist, biometric authentication and mParticle integration.</p></div><span class="timeline-location">REMOTE</span></li>
+        <li><span class="timeline-date">2019  -  2020</span><div><h3>Frontend Developer <span>· Apollo-Optik</span></h3><p>Technical development of an omnichannel e-commerce project with React and TypeScript.</p></div><span class="timeline-location">SCHWABACH</span></li>
+        <li><span class="timeline-date">2017  -  2019</span><div><h3>Frontend Developer <span>· ISO-Gruppe</span></h3><p>Booking portal features, Magnolia Headless CMS extensions and WCAG accessibility for an airline.</p></div><span class="timeline-location">NUREMBERG</span></li>
+        <li><span class="timeline-date">2015 - 2017</span><div><h3>Fullstack Web Developer <span>· Agentur triebwerk</span></h3><p>Customer websites and mobile marketing applications using TYPO3, WordPress and PhoneGap.</p></div><span class="timeline-location">NUREMBERG</span></li>
+        <li><span class="timeline-date">2014 - 2015</span><div><h3>Junior Web Developer <span>· Agentur DROW</span></h3><p>Requirements gathering, effort estimation, and TYPO3 and WordPress websites with customer training.</p></div><span class="timeline-location">NUREMBERG</span></li>
+        <li><span class="timeline-date">2011  -  2012</span><div><h3>Frontend Developer <span>· Candor Technologies</span></h3><p>Frontend and backend extensions for a customizable business card platform using JavaScript and C#.</p></div><span class="timeline-location">CAPE TOWN</span></li>
+      </ol>
+      <div class="education"><span>EDUCATION</span><p><strong>B.Sc. Business Information Systems</strong> · Deggendorf Institute of Technology · 2013</p></div>
+    </section>
+
+    <section class="contact section-wrap" id="contact" aria-labelledby="contact-title">
+      <p class="section-kicker">Have something good in mind? <span>05</span></p>
+      <div class="contact-content"><h2 id="contact-title">Let’s make it<br><em>work beautifully.</em></h2><div><p>I’m interested in thoughtful product teams working across web and mobile, developer experience, or AI-supported engineering.</p><a class="button button-light" href="mailto:pixeltastics@gmail.com">Email me<span aria-hidden="true">↗</span></a></div></div>
+      <div class="contact-footer"><span>Nuremberg, Germany</span><div><a href="mailto:pixeltastics@gmail.com">Email</a><a href="https://www.linkedin.com/in/G.K.-hoskins/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div><span>© <span id="year">2026</span>G.K. Hoskins</span></div>
+    </section>
+  </main>
 </body>
 </html>
