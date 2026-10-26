@@ -7,6 +7,7 @@ const templatePath = path.join(root, 'portfolio-template.html');
 const sourceStylesPath = path.join(root, 'styles.css');
 const outputPath = path.join(root, 'index.html');
 const distPath = path.join(root, 'dist');
+const ogImagePath = path.join(root, 'og-image.png');
 
 const html = fs.readFileSync(templatePath, 'utf8');
 if (!/^<!doctype html>/i.test(html.trimStart())) {
@@ -34,10 +35,16 @@ for (const [, target] of html.matchAll(/\bhref="#([^"]+)"/g)) {
 if (!fs.existsSync(sourceStylesPath)) {
   throw new Error('styles.css is missing.');
 }
+if (/og-image\.png/.test(html) && !fs.existsSync(ogImagePath)) {
+  throw new Error('The portfolio template references og-image.png, but the file is missing.');
+}
 
 fs.mkdirSync(distPath, { recursive: true });
 fs.writeFileSync(outputPath, html);
 fs.copyFileSync(templatePath, path.join(distPath, 'index.html'));
 fs.copyFileSync(sourceStylesPath, path.join(distPath, 'styles.css'));
+if (fs.existsSync(ogImagePath)) {
+  fs.copyFileSync(ogImagePath, path.join(distPath, 'og-image.png'));
+}
 
 console.log('Portfolio built from portfolio-template.html into the workspace and dist/.');
