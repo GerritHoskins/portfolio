@@ -67,9 +67,10 @@
         <h1 id="hero-title">I build digital products that feel <em>at home</em> on every screen.</h1>
         <p class="hero-intro">Frontend and cross-platform mobile developer with 13+ years of experience turning product ideas into dependable web, iOS and Android experiences.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#work">Explore selected work <span aria-hidden="true">↓</span></a>
-          <a class="text-link" href="mailto:contact@pixeltronic.dev">Let’s talk <span aria-hidden="true">↗</span></a>
+          <button type="button" class="button button-primary" id="guide-cta" hidden>Turn on the guide <span aria-hidden="true">→</span></button>
+          <a class="text-link" href="#work">View my work <span aria-hidden="true">→</span></a>
         </div>
+        <p class="guide-line" id="guide-line" hidden>Prefer to talk it through? Turn on the page guide.</p>
         <!-- TODO(human): write the Now strip (current focus + availability), then remove the hidden attribute. -->
         <p class="now-strip" hidden><span class="now-label">Now</span><span class="now-text"></span></p>
         <div class="hero-meta" aria-label="Focus areas">
@@ -77,15 +78,18 @@
         </div>
       </div>
       <div class="hero-art" aria-label="A product system connecting web, iOS, Android and quality">
-        <div class="orbit orbit-one"></div>
-        <div class="orbit orbit-two"></div>
-        <div class="orbit orbit-three"></div>
-        <div class="orbit-center"><span class="orbit-mark">GH</span><span>One thoughtful<br>product system</span></div>
-        <div class="orbit-node node-web"><span class="node-icon">⌘</span><span>Web</span></div>
-        <div class="orbit-node node-ios"><span class="node-icon">◉</span><span>iOS</span></div>
-        <div class="orbit-node node-android"><span class="node-icon">△</span><span>Android</span></div>
-        <div class="orbit-node node-quality"><span class="node-icon">✓</span><span>Quality</span></div>
-        <span class="art-caption">DESIGN · ENGINEERING · DELIVERY</span>
+        <div class="orbit-scale">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="orbit orbit-three"></div>
+          <div class="orbit-center"><span class="orbit-mark">GH</span><span>One thoughtful<br>product system</span></div>
+          <button type="button" class="orbit-node node-web" data-ask="Tell me about your web development experience." disabled><span class="node-icon" aria-hidden="true">⌘</span><span>Web</span></button>
+          <button type="button" class="orbit-node node-ios" data-ask="Tell me about your iOS experience." disabled><span class="node-icon" aria-hidden="true">◉</span><span>iOS</span></button>
+          <button type="button" class="orbit-node node-android" data-ask="Tell me about your Android experience." disabled><span class="node-icon" aria-hidden="true">△</span><span>Android</span></button>
+          <button type="button" class="orbit-node node-quality" data-ask="How do you approach quality and testing?" disabled><span class="node-icon" aria-hidden="true">✓</span><span>Quality</span></button>
+          <span class="art-caption">DESIGN · ENGINEERING · DELIVERY</span>
+        </div>
+        <pixeltronic-avatar></pixeltronic-avatar>
       </div>
       <div class="hero-rule"><span>01 / A little about how I work</span><span>Scroll to explore ↓</span></div>
     </section>
@@ -187,6 +191,31 @@
         if (e.key === 'Escape' && header.classList.contains('nav-open')) { setOpen(false); toggle.focus(); }
       });
       window.matchMedia('(min-width: 641px)').addEventListener('change', function (e) { if (e.matches) setOpen(false); });
+    })();
+  </script>
+  <pixeltronic-guide-bar></pixeltronic-guide-bar>
+  <script type="module" src="https://avatar.pixeltronic.dev/widget/avatar.js"></script>
+  <script>
+    // Page side of the avatar guide: the hero button and the topic nodes drive the element; nothing runs while it is off.
+    (function () {
+      var avatar = document.querySelector('pixeltronic-avatar');
+      var cta = document.getElementById('guide-cta');
+      var line = document.getElementById('guide-line');
+      var nodes = document.querySelectorAll('.orbit-node[data-ask]');
+      var LIVE = { ready: 1, recording: 1, transcribing: 1, speaking: 1, ending: 1, textOnly: 1 };
+      var LINES = { off: 'Prefer to talk it through? Turn on the page guide.', connecting: 'Opening the live session. Nothing is heard until you ask.', ready: 'On and waiting. It speaks when you do.', textOnly: 'Video stopped. You can keep asking in text.' };
+      function sync() {
+        var state = avatar.state, live = !!LIVE[state] || (state === 'connecting' && avatar.canAsk);
+        var playing = !!LIVE[state];
+        line.textContent = LINES[state === 'ending' || state === 'recording' || state === 'transcribing' || state === 'speaking' ? 'ready' : state] || LINES.off;
+        cta.firstChild.nodeValue = playing ? 'Play intro ' : 'Turn on the guide ';
+        cta.disabled = state === 'connecting';
+        nodes.forEach(function (node) { node.disabled = !live; });
+      }
+      cta.addEventListener('click', function () { if (LIVE[avatar.state]) avatar.playIntro(); else avatar.start(); });
+      nodes.forEach(function (node) { node.addEventListener('click', function () { avatar.ask(node.getAttribute('data-ask')); }); });
+      avatar.addEventListener('statechange', sync);
+      customElements.whenDefined('pixeltronic-avatar').then(function () { cta.hidden = false; line.hidden = false; sync(); });
     })();
   </script>
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "58c27efade08486bbb3d61748aef43eb"}'></script>

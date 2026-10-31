@@ -43,6 +43,12 @@ fs.mkdirSync(distPath, { recursive: true });
 fs.writeFileSync(outputPath, html);
 fs.copyFileSync(templatePath, path.join(distPath, 'index.html'));
 fs.copyFileSync(sourceStylesPath, path.join(distPath, 'styles.css'));
+for (const page of ['access.html', 'privacy.html']) {
+  const pagePath = path.join(root, page);
+  if (fs.existsSync(pagePath)) {
+    fs.copyFileSync(pagePath, path.join(distPath, page));
+  }
+}
 if (fs.existsSync(ogImagePath)) {
   fs.copyFileSync(ogImagePath, path.join(distPath, 'og-image.png'));
 }
