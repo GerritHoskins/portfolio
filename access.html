@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eae0cf">
+  <meta name="robots" content="noindex">
+  <title>Request access - pixeltronic.dev</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23547792'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .access { width: min(560px, calc(100% - 40px)); margin: 0 auto; padding: 72px 0 96px; }
+    .access h1 { margin: 14px 0 16px; font-size: clamp(2rem, 6vw, 2.9rem); line-height: 1.08; letter-spacing: -.055em; }
+    .access .lede { margin: 0 0 32px; color: var(--text-light); }
+    .access-form { display: grid; gap: 18px; padding: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; box-shadow: var(--shadow-lg); }
+    .access-form label { display: grid; gap: 6px; font-size: .86rem; font-weight: 700; }
+    .access-form .hint { font-weight: 400; color: var(--text-light); font-size: .78rem; }
+    .access-form input, .access-form textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--primary-dark); border-radius: 3px; background: var(--bg); color: var(--text); font: 400 .95rem var(--sans); }
+    .access-form textarea { min-height: 112px; resize: vertical; }
+    .access-form input[aria-invalid="true"], .access-form textarea[aria-invalid="true"] { border-color: var(--err); box-shadow: inset 0 0 0 1px var(--err); }
+    .access-form .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .access-form .row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .access-form button.button { border: 0; cursor: pointer; font: 800 .77rem var(--sans); }
+    .access-form button.button:disabled { opacity: .65; cursor: default; transform: none; box-shadow: none; }
+    .count { font: 400 .62rem var(--mono); letter-spacing: .06em; color: var(--text-light); }
+    .status { display: flex; gap: 8px; align-items: flex-start; margin: 0; font-size: .86rem; font-weight: 600; }
+    .status[hidden] { display: none; }
+    .status svg { flex: none; margin-top: 3px; }
+    .status.ok { color: var(--ok-text); }
+    .status.err { color: var(--err); }
+    .access .back { display: inline-block; margin-top: 28px; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="pixeltronic.dev, home">pixeltronic<span>.</span>dev</a>
+  </header>
+  <main id="main" class="access">
+    <p class="eyebrow">Page guide · pass key</p>
+    <h1>Request access to the page guide.</h1>
+    <p class="lede">The AI avatar answers questions about my professional experience and public projects, in English or German. It is open to invited visitors with a pass key. Tell me who you are and how to reach you, and if it fits I will send you one.</p>
+    <form class="access-form" id="request-form" novalidate>
+      <label>Your name
+        <input name="name" id="f-name" type="text" autocomplete="name" maxlength="80" required>
+      </label>
+      <label>How can I reach you?
+        <input name="reply" id="f-reply" type="text" autocomplete="email" maxlength="120" required aria-describedby="reply-hint">
+        <span class="hint" id="reply-hint">Your email address or profile link. Used only to reply to this request.</span>
+      </label>
+      <label>What would you like to ask the guide? <span class="hint">Optional</span>
+        <textarea name="message" id="f-message" maxlength="500"></textarea>
+      </label>
+      <label class="trap" aria-hidden="true">Website <input name="website" id="f-website" type="text" tabindex="-1" autocomplete="off"></label>
+      <div class="row">
+        <button class="button button-primary" id="f-send" type="submit">Send request</button>
+        <span class="count" id="f-count" aria-hidden="true">0 / 500</span>
+      </div>
+      <p class="status" id="status" hidden role="status"></p>
+    </form>
+    <a class="text-link back" href="/"><span aria-hidden="true" style="padding:0 6px 0 0">←</span>Back to portfolio</a>
+  </main>
+  <script>
+    (function () {
+      var API = 'https://avatar.pixeltronic.dev/api/access-request';
+      var form = document.getElementById('request-form');
+      var status = document.getElementById('status');
+      var send = document.getElementById('f-send');
+      var name = document.getElementById('f-name'), reply = document.getElementById('f-reply'), message = document.getElementById('f-message');
+      var ICON = {
+        err: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>',
+        ok: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.8"/></svg>'
+      };
+      function show(kind, text) {
+        status.className = 'status ' + kind; status.hidden = false;
+        status.innerHTML = ICON[kind]; var s = document.createElement('span'); s.textContent = text; status.appendChild(s);
+      }
+      function mark(el, bad) { el.setAttribute('aria-invalid', bad ? 'true' : 'false'); }
+      message.addEventListener('input', function () { document.getElementById('f-count').textContent = message.value.length + ' / 500'; });
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        var bad = [];
+        if (!name.value.trim()) bad.push(name);
+        if (reply.value.trim().length < 3) bad.push(reply);
+        [name, reply].forEach(function (el) { mark(el, bad.indexOf(el) !== -1); });
+        if (bad.length) { show('err', 'Please fill in your name and how I can reach you.'); bad[0].focus(); return; }
+        send.disabled = true; status.hidden = true;
+        fetch(API, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'omit', referrerPolicy: 'no-referrer',
+          body: JSON.stringify({ name: name.value.trim(), reply: reply.value.trim(), message: message.value.trim(), website: document.getElementById('f-website').value })
+        }).then(function (response) {
+          if (response.status === 429) { show('err', 'Too many requests from this connection. Please try again later.'); send.disabled = false; return; }
+          if (!response.ok) { show('err', 'The request could not be sent. Please check the form and try again.'); send.disabled = false; return; }
+          form.reset(); document.getElementById('f-count').textContent = '0 / 500';
+          show('ok', 'Request sent. If it fits, you will get a pass key at the contact you gave.');
+        }).catch(function () { show('err', 'The request could not be sent. Please check your connection and try again.'); send.disabled = false; });
+      });
+    })();
+  </script>
+</body>
+</html>
