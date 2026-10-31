@@ -34,6 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>try { if (localStorage.getItem('pxt-theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}</script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -58,6 +59,10 @@
         </svg>
       </a>
     </nav>
+    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Dark theme">
+      <svg class="i-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      <svg class="i-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </button>
   </header>
 
   <main id="main">
@@ -83,10 +88,10 @@
           <div class="orbit orbit-two"></div>
           <div class="orbit orbit-three"></div>
           <div class="orbit-center"><span class="orbit-mark">GH</span><span>One thoughtful<br>product system</span></div>
-          <button type="button" class="orbit-node node-web" data-ask="Tell me about your web development experience." disabled><span class="node-icon" aria-hidden="true">⌘</span><span>Web</span></button>
-          <button type="button" class="orbit-node node-ios" data-ask="Tell me about your iOS experience." disabled><span class="node-icon" aria-hidden="true">◉</span><span>iOS</span></button>
-          <button type="button" class="orbit-node node-android" data-ask="Tell me about your Android experience." disabled><span class="node-icon" aria-hidden="true">△</span><span>Android</span></button>
-          <button type="button" class="orbit-node node-quality" data-ask="How do you approach quality and testing?" disabled><span class="node-icon" aria-hidden="true">✓</span><span>Quality</span></button>
+          <button type="button" class="orbit-node node-web" data-ask="Tell me about your web development experience." disabled><span class="node-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg></span><span>Web</span></button>
+          <button type="button" class="orbit-node node-ios" data-ask="Tell me about your iOS experience." disabled><span class="node-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg></span><span>iOS</span></button>
+          <button type="button" class="orbit-node node-android" data-ask="Tell me about your Android experience." disabled><span class="node-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></span><span>Android</span></button>
+          <button type="button" class="orbit-node node-quality" data-ask="How do you approach quality and testing?" disabled><span class="node-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span><span>Quality</span></button>
           <span class="art-caption">DESIGN · ENGINEERING · DELIVERY</span>
         </div>
         <pixeltronic-avatar></pixeltronic-avatar>
@@ -146,10 +151,10 @@
     <section class="capabilities section-wrap" aria-labelledby="capabilities-title">
       <div class="section-heading"><div><p class="section-kicker">How I contribute <span>03</span></p><h2 id="capabilities-title">From first component to shipped release.</h2></div><p>Hands-on product engineering, with care for what happens before and after the code is written.</p></div>
       <div class="capability-grid">
-        <article><span class="capability-icon">◫</span><h3>Web &amp; product UI</h3><p>TypeScript, JavaScript, Vue and React. Reusable components, thoughtful states and accessible interfaces.</p></article>
-        <article><span class="capability-icon">▣</span><h3>iOS &amp; Android</h3><p>Ionic and Capacitor apps with native plugins, platform-specific behavior and shared TypeScript APIs.</p></article>
-        <article><span class="capability-icon">↗</span><h3>Integrations &amp; delivery</h3><p>APIs, app services, automated tests, CI/CD, release pipelines and production issue analysis with Sentry.</p></article>
-        <article><span class="capability-icon">✳</span><h3>AI-supported development</h3><p>MCP-based project context, custom agent skills and reviewable workflows with clear human approval.</p></article>
+        <article><span class="capability-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="18" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/></svg></span><h3>Web &amp; product UI</h3><p>TypeScript, JavaScript, Vue and React. Reusable components, thoughtful states and accessible interfaces.</p></article>
+        <article><span class="capability-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></span><h3>iOS &amp; Android</h3><p>Ionic and Capacitor apps with native plugins, platform-specific behavior and shared TypeScript APIs.</p></article>
+        <article><span class="capability-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg></span><h3>Integrations &amp; delivery</h3><p>APIs, app services, automated tests, CI/CD, release pipelines and production issue analysis with Sentry.</p></article>
+        <article><span class="capability-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4M22 5h-4M4 17v2M5 18H3"/></svg></span><h3>AI-supported development</h3><p>MCP-based project context, custom agent skills and reviewable workflows with clear human approval.</p></article>
       </div>
       <div class="toolbelt"><span>TOOLS I WORK WITH</span><p>TypeScript <i>·</i> Vue <i>·</i> React <i>·</i> Ionic <i>·</i> Capacitor <i>·</i> Swift <i>·</i> Kotlin <i>·</i> Vitest <i>·</i> Cypress <i>·</i> GitLab CI/CD <i>·</i> Fastlane <i>·</i> Sentry</p></div>
     </section>
@@ -191,6 +196,23 @@
         if (e.key === 'Escape' && header.classList.contains('nav-open')) { setOpen(false); toggle.focus(); }
       });
       window.matchMedia('(min-width: 641px)').addEventListener('change', function (e) { if (e.matches) setOpen(false); });
+
+      // Theme: light by default; the choice is remembered on this device (the head script applies it before paint).
+      var root = document.documentElement;
+      var themeToggle = header.querySelector('.theme-toggle');
+      var themeColor = document.querySelector('meta[name="theme-color"]');
+      function showTheme() {
+        var dark = root.dataset.theme === 'dark';
+        themeToggle.setAttribute('aria-pressed', dark);
+        themeColor.setAttribute('content', dark ? '#1a2635' : '#eae0cf');
+      }
+      themeToggle.addEventListener('click', function () {
+        var dark = root.dataset.theme !== 'dark';
+        if (dark) root.dataset.theme = 'dark'; else delete root.dataset.theme;
+        try { localStorage.setItem('pxt-theme', dark ? 'dark' : 'light'); } catch (e) {}
+        showTheme();
+      });
+      showTheme();
     })();
   </script>
   <pixeltronic-guide-bar></pixeltronic-guide-bar>

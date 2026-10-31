@@ -20,18 +20,18 @@
   --font-sans: Manrope; --font-mono: "DM Mono";
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1a2635;
-    --bg-secondary: #213448;
-    --text: #eae0cf;
-    --text-light: #c1cad6;
-    --border: #3d4f66;
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-    --surface: #26384b;
-    --ok-text: #8fd3a0; --err: #ff9b9b;
-  }
+/* Light is the default, as in the boards; dark is the visitor's choice from the header toggle. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #1a2635;
+  --bg-secondary: #213448;
+  --text: #eae0cf;
+  --text-light: #c1cad6;
+  --border: #3d4f66;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  --surface: #26384b;
+  --ok-text: #8fd3a0; --err: #ff9b9b;
 }
 
 * { box-sizing: border-box; }
@@ -50,6 +50,12 @@ a { color: inherit; }
 .site-header nav a:hover, .text-link:hover { color: var(--primary-dark); }
 .site-header nav .nav-contact { color: var(--text); }
 .nav-toggle { display: none; }
+.site-header nav { margin-left: auto; }
+.theme-toggle { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin: 0 -10px 0 clamp(10px, 2vw, 34px); padding: 0; background: none; border: 0; border-radius: 3px; color: var(--text-light); cursor: pointer; transition: color .2s ease; }
+.theme-toggle:hover { color: var(--primary-dark); }
+.theme-toggle .i-sun, [data-theme="dark"] .theme-toggle .i-moon { display: none; }
+[data-theme="dark"] .theme-toggle .i-sun { display: block; }
+.capability-icon svg { width: 18px; height: 18px; }
 .nav-contact span { margin-left: 7px; color: var(--primary-dark); }
 .nav-icon { display: flex; }
 .section-wrap { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
@@ -64,7 +70,8 @@ h1, h2, h3, p { margin-top: 0; }
 h1 em, .contact h2 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400; color: var(--primary-dark); }
 .hero-intro { max-width: 490px; color: var(--text-light); font-size: 1rem; line-height: 1.85; }
 .hero-actions { display: flex; align-items: center; gap: 27px; margin-top: 31px; }
-.button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 0 19px; border-radius: 3px; text-decoration: none; font-size: .77rem; font-weight: 800; transition: transform .2s ease, box-shadow .2s ease; }
+/* Same button as the avatar guide's `.btn` (Start conversation): no border, Manrope 800 at 12.3px. */
+.button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 0 19px; border: 0; border-radius: 3px; text-decoration: none; font: 800 .77rem/1 var(--sans); cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
 .button:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
 .button-primary { background: var(--primary-dark); color: #fff; }
 .button-primary span, .button-light span { font-size: 1rem; }
@@ -90,6 +97,7 @@ button.orbit-node { font-family: var(--mono); color: var(--text); cursor: pointe
 button.orbit-node:disabled { cursor: default; opacity: .62; }
 .guide-line { max-width: 490px; margin: 14px 0 0; color: var(--text-light); font-size: .9rem; }
 .node-icon { color: var(--primary-dark); font: 700 1rem/1 var(--sans); }
+.node-icon svg { display: block; width: 16px; height: 16px; }
 .node-web { top: 7%; left: 42%; }.node-ios { top: 44%; right: -1%; }.node-android { bottom: 7%; left: 42%; }.node-quality { top: 44%; left: -1%; }
 .art-caption { position: absolute; bottom: -18px; font: 400 .57rem/1.5 var(--mono); letter-spacing: .08em; color: var(--text-light); }
 /* Page guide present: the guide line takes the intro's place, and data-guide sets the orbit (off, live, dim). */
@@ -167,6 +175,7 @@ button.orbit-node:disabled { cursor: default; opacity: .62; }
   html { scroll-padding-top: 70px; }
   .site-header { height: 65px; padding-inline: 22px; background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }.site-header nav { gap: 16px; font-size: .66rem; }
   .nav-toggle { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-right: -10px; padding: 0; background: none; border: 0; color: var(--text); cursor: pointer; }
+  .theme-toggle { order: 1; margin: 0 0 0 auto; }.nav-toggle { order: 2; }
   .nav-toggle-bar, .nav-toggle-bar::before, .nav-toggle-bar::after { display: block; width: 22px; height: 2px; background: currentColor; transition: transform .25s ease, opacity .2s ease; }
   .nav-toggle-bar { position: relative; }
   .nav-toggle-bar::before, .nav-toggle-bar::after { content: ""; position: absolute; left: 0; }
