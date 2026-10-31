@@ -78,7 +78,7 @@ h1 em, .contact h2 em { font-family: Georgia, "Times New Roman", serif; font-wei
 .orbit-scale { position: absolute; inset: 0; display: grid; place-items: center; transform: scale(var(--orbit-scale)); }
 .hero-art pixeltronic-avatar { position: absolute; inset: 0; width: auto; max-width: none; aspect-ratio: auto; pointer-events: none; }
 .hero-art:has(pixeltronic-avatar:defined) .orbit-center { display: none; }
-@media (min-width: 721px) { .hero-art:has(pixeltronic-avatar[data-panel]) { --orbit-scale: .72; margin-bottom: 300px; } }
+@media (min-width: 721px) { .hero-art:has(pixeltronic-avatar[data-panel]) { --orbit-scale: .72; margin: -90px 0 300px; } }
 .orbit { position: absolute; width: 330px; aspect-ratio: 1; border: 1px solid var(--border); border-radius: 50%; }
 .orbit-two { width: 255px; border-style: dashed; border-color: var(--primary); }
 .orbit-three { width: 176px; border-color: var(--primary); opacity: .7; }
@@ -92,6 +92,21 @@ button.orbit-node:disabled { cursor: default; opacity: .62; }
 .node-icon { color: var(--primary-dark); font: 700 1rem/1 var(--sans); }
 .node-web { top: 7%; left: 42%; }.node-ios { top: 44%; right: -1%; }.node-android { bottom: 7%; left: 42%; }.node-quality { top: 44%; left: -1%; }
 .art-caption { position: absolute; bottom: -18px; font: 400 .57rem/1.5 var(--mono); letter-spacing: .08em; color: var(--text-light); }
+/* Page guide present: the guide line takes the intro's place, and data-guide sets the orbit (off, live, dim). */
+.hero.has-guide h1 { max-width: 560px; font-size: clamp(2.9rem, 4.6vw, 3.625rem); margin-bottom: 22px; }
+.hero.has-guide .hero-intro, .hero.has-guide .art-caption { display: none; }
+.hero.has-guide .guide-line { max-width: 420px; margin: 0; font-size: 1rem; line-height: 1.85; }
+.hero.has-guide .hero-actions { margin-top: 28px; }
+.orbit-node[hidden] { display: none; }
+.hero.has-guide .node-icon { display: none; }
+.hero.has-guide .orbit-node { min-width: 88px; padding: 8px 10px; font: 800 .75rem/1.3 var(--sans); letter-spacing: -.01em; text-transform: none; }
+.hero.has-guide:not([data-guide="live"]) .orbit-one { border-style: dashed; border-color: var(--primary); }
+.hero[data-guide="live"] .orbit-two { border-style: solid; border-color: var(--primary-dark); }
+/* Connecting: a quarter arc runs round the outer ring; with reduced motion it rests at twelve to three o'clock. */
+.orbit-one::after { content: ""; position: absolute; inset: -1px; border: 2.5px solid transparent; border-top-color: var(--primary-dark); border-radius: 50%; transform: rotate(45deg); visibility: hidden; }
+.hero[data-guide="connecting"] .orbit-one::after { visibility: visible; animation: orbit-arc 1.6s linear infinite; }
+@keyframes orbit-arc { to { transform: rotate(405deg); } }
+@media (min-width: 851px) { .hero.has-guide { align-items: start; }.hero.has-guide .hero-copy { padding-top: 40px; }.hero.has-guide .hero-art { --orbit-scale: .72; } }
 .hero-rule { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between; padding: 15px 0; border-top: 1px solid var(--border); color: var(--text-light); font: 400 .59rem/1.5 var(--mono); text-transform: uppercase; letter-spacing: .07em; }
 .intro { padding-top: 116px; padding-bottom: 118px; }
 .section-kicker { color: var(--primary-dark); margin-bottom: 26px; }
@@ -170,6 +185,11 @@ button.orbit-node:disabled { cursor: default; opacity: .62; }
   .hero { display: flex; flex-direction: column; align-items: stretch; padding-top: 62px; min-height: 0; }
   .hero-copy { padding-bottom: 0; }.eyebrow { flex-wrap: wrap; font-size: .58rem; }.hero h1 { max-width: 520px; font-size: clamp(2.65rem, 12vw, 4.2rem); }.hero-intro { max-width: 440px; font-size: .91rem; }.hero-meta { margin-top: 30px; }
   .hero-art { --pxt-stage: 112px; --pxt-radius: 145px; --orbit-scale: .82; min-height: 330px; margin: 23px 0 40px; }.orbit { width: 290px; }.orbit-two { width: 224px; }.orbit-three { width: 155px; }.node-ios { right: -3%; }.node-quality { left: -3%; }.hero-rule { bottom: 0; }
+  .hero.has-guide { padding-top: 24px; }.hero.has-guide h1 { font-size: clamp(2rem, 8.5vw, 2.6rem); line-height: 1.1; margin-bottom: 16px; }.hero.has-guide .guide-line { font-size: .875rem; line-height: 1.7; }
+  .hero.has-guide #guide-cta, .hero.has-guide .hero-meta { display: none; }.hero.has-guide .hero-actions { margin-top: 12px; }.hero.has-guide .hero-art { margin-top: 8px; }
+  /* Panel open (R6-m, R7-m): heading and orbit stay above the sheet without scrolling; the pill takes Android's place. */
+  .hero:has(pixeltronic-avatar[data-panel]) :is(.guide-line, .hero-actions, .node-android) { display: none; }
+  .hero:has(pixeltronic-avatar[data-panel]) .hero-art { min-height: 250px; margin: 0 0 40px; }
   .intro { padding-top: 79px; padding-bottom: 78px; }.intro-content { grid-template-columns: 1fr; gap: 21px; }.intro h2 { font-size: 2.35rem; }.principles { grid-template-columns: 1fr; gap: 20px; margin-top: 35px; }.principles > div { max-width: 390px; }
   .work, .capabilities, .experience { padding-top: 76px; padding-bottom: 78px; }.section-heading { display: block; margin-bottom: 29px; }.section-heading > p { margin-top: 17px; }.section-heading h2 { font-size: 2.2rem; }
   .project-featured { grid-template-columns: 1fr; padding: 13px; gap: 12px; }.project-featured .project-visual { min-height: 250px; }.project-copy { padding: 10px 5px 5px; }.project-grid { grid-template-columns: 1fr; gap: 17px; margin-top: 17px; }.project-card { padding: 13px; }.project-card .project-visual { min-height: 225px; }
