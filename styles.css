@@ -90,7 +90,7 @@ h1 em, .contact h2 em { font-family: Georgia, "Times New Roman", serif; font-wei
 @media (min-width: 721px) { .hero-art:has(pixeltronic-avatar[data-panel]) { --orbit-scale: .72; margin: -90px 0 300px; } }
 .orbit { position: absolute; width: 330px; aspect-ratio: 1; border: 1px solid var(--border); border-radius: 50%; }
 .orbit-two { width: 255px; border-style: dashed; border-color: var(--primary); }
-.orbit-three { width: 176px; border-color: var(--primary); opacity: .7; }
+.orbit-three { width: 198px; border-color: var(--primary); opacity: .7; }
 .orbit-center { z-index: 1; width: 126px; height: 126px; display: grid; place-content: center; text-align: center; border-radius: 50%; background: var(--primary-dark); color: #fff; box-shadow: 0 0 0 12px color-mix(in srgb, var(--primary) 35%, transparent), var(--shadow-lg); font-size: .59rem; line-height: 1.45; }
 .orbit-mark { display: block; margin-bottom: 5px; font-size: 1rem; font-weight: 800; letter-spacing: -.1em; }
 .orbit-node { position: absolute; z-index: 2; display: grid; justify-items: center; gap: 4px; min-width: 65px; padding: 10px 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; box-shadow: var(--shadow); font: 500 .57rem/1.2 var(--mono); text-transform: uppercase; }
@@ -109,8 +109,22 @@ button.orbit-node:disabled { cursor: default; opacity: .62; }
 .orbit-node[hidden] { display: none; }
 .hero.has-guide .node-icon { display: none; }
 .hero.has-guide .orbit-node { min-width: 88px; padding: 8px 10px; font: 800 .75rem/1.3 var(--sans); letter-spacing: -.01em; text-transform: none; }
-.hero.has-guide:not([data-guide="live"]) .orbit-one { border-style: dashed; border-color: var(--primary); }
+/* R6 rings: hairline outer ring, fine dashed middle ring, hairline inner ring; no caption under the orbit (the poster's alt and the panel carry the AI label). */
+.hero-art pixeltronic-avatar::part(badge) { display: none; }
+.hero.has-guide .orbit-three { border-color: var(--border); opacity: 1; }
+/* Orbiting: a satellite rides the middle and inner rings, in opposite directions. */
+.hero.has-guide :is(.orbit-two, .orbit-three) { animation: orbit-spin 48s linear infinite; }
+.hero.has-guide .orbit-three { animation-duration: 32s; animation-direction: reverse; }
+.hero.has-guide :is(.orbit-two, .orbit-three)::before { content: ""; position: absolute; top: -4px; left: calc(50% - 3.5px); width: 7px; height: 7px; border-radius: 50%; background: var(--primary-dark); }
+.hero.has-guide .orbit-three::before { top: auto; bottom: -3.5px; width: 6px; height: 6px; background: var(--primary); }
+.hero[data-guide="dim"] :is(.orbit-two, .orbit-three) { animation-play-state: paused; }
+@keyframes orbit-spin { to { transform: rotate(360deg); } }
+/* Loading (connecting): the inner ring breathes while the arc runs. Ready (live): the inner ring sets solid and pings once. */
+.hero[data-guide="connecting"] .orbit-three { box-shadow: 0 0 0 0 color-mix(in srgb, var(--primary) 45%, transparent); animation: orbit-spin 32s linear infinite reverse, orbit-breathe 1.6s ease-in-out infinite; }
 .hero[data-guide="live"] .orbit-two { border-style: solid; border-color: var(--primary-dark); }
+.hero[data-guide="live"] .orbit-three { border: 2px solid var(--primary-dark); animation: orbit-spin 32s linear infinite reverse, orbit-ping 1.2s ease-out 1; }
+@keyframes orbit-breathe { 50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--primary) 0%, transparent); border-color: var(--primary-dark); } }
+@keyframes orbit-ping { from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--primary-dark) 50%, transparent); } to { box-shadow: 0 0 0 22px color-mix(in srgb, var(--primary-dark) 0%, transparent); } }
 /* Connecting: a quarter arc runs round the outer ring; with reduced motion it rests at twelve to three o'clock. */
 .orbit-one::after { content: ""; position: absolute; inset: -1px; border: 2.5px solid transparent; border-top-color: var(--primary-dark); border-radius: 50%; transform: rotate(45deg); visibility: hidden; }
 .hero[data-guide="connecting"] .orbit-one::after { visibility: visible; animation: orbit-arc 1.6s linear infinite; }
