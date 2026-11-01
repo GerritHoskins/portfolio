@@ -52,5 +52,12 @@ for (const page of ['access.html', 'privacy.html']) {
 if (fs.existsSync(ogImagePath)) {
   fs.copyFileSync(ogImagePath, path.join(distPath, 'og-image.png'));
 }
+const posterPath = path.join(root, 'avatar-poster.jpg');
+if (/avatar-poster\.jpg/.test(html) && !fs.existsSync(posterPath)) {
+  throw new Error('The portfolio template references avatar-poster.jpg, but the file is missing.');
+}
+if (fs.existsSync(posterPath)) {
+  fs.copyFileSync(posterPath, path.join(distPath, 'avatar-poster.jpg'));
+}
 
 console.log('Portfolio built from portfolio-template.html into the workspace and dist/.');
