@@ -9,6 +9,11 @@ on:
 permissions:
   contents: read
 
+# Keep main's checks and publication in order; newer branch checks can supersede old ones.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -25,3 +30,24 @@ jobs:
       - run: npm run check
       - name: Verify committed generated files
         run: git diff --exit-code -- index.html dist
+      - name: Package tested release
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+          retention-days: 1
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish tested release
+        id: deployment
+        uses: actions/deploy-pages@v4
