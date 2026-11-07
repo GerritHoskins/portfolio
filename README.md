@@ -35,9 +35,17 @@ npm run check:browser
 
 Browser regressions use local pages and intercept external requests. They must not submit real access requests, start paid guide sessions, or depend on live fonts, analytics, or provider availability. Keep assertions on user-visible behavior: focus visibility, menu dismissal, form validation and failure recovery, readable theme colors, and narrow-screen overflow. Build checks cover missing or invalid inputs and generated-output consistency.
 
-CI installs the locked tools and browser engines, builds, runs `npm run check`, then runs `git diff --exit-code -- index.html dist` so an omitted generated update fails the job.
+CI installs the locked tools and browser engines, builds, runs `npm run check`, then runs `git diff --exit-code -- index.html dist` so an omitted generated update fails the job. After all checks pass, it packages that same `dist/` as the `github-pages` artifact with one-day retention. Branch and pull-request runs exercise packaging without publishing.
 
 Windows WebKit omits links from native Tab traversal, including on an isolated HTML page. Its four keyboard-link cases are explicitly skipped on Windows and required on Linux CI; Chromium and Firefox still run them. On macOS the tests use WebKit's Option+Tab link-navigation shortcut. A local engine launch failure is an environment failure, not a passing test; the complete three-engine CI run remains required.
+
+## Publishing
+
+Production is hosted on GitHub Pages at `https://pixeltronic.dev/`. Set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**, with the existing custom domain and HTTPS enabled. The local `.openai/hosting.json` binding is not the production publishing path. GitHub Actions Pages deployments use the repository's custom-domain setting; the root `CNAME` file is not part of the release artifact.
+
+A push to `main` runs the checks and packages `dist/`, then the dependent `deploy` job publishes that exact artifact through the `github-pages` environment. Failed or cancelled checks prevent deployment. The environment permits only `main`, and only the deployment job receives Pages write and OIDC permissions through `GITHUB_TOKEN`; no personal access token is needed. Main runs are serialized so a slower earlier build cannot publish after a newer build. Superseded feature-branch checks can be cancelled.
+
+For the initial migration, validate the workflow MR and its packaged artifact, then switch the Pages source from branch publishing to GitHub Actions before merging. The merge triggers the first gated deployment. Verify the deployed home, access and privacy pages, their assets, and the custom domain after the deployment succeeds. For a rollback, revert the source and generated files in a reviewed MR and let the same checks and deployment workflow publish it.
 
 ## Preview
 
@@ -53,13 +61,13 @@ The guide is loaded from `https://avatar.pixeltronic.dev/widget/avatar.js`; its 
 
 ## Release acceptance
 
-Before publishing a new build:
+Before merging a release to `main` (which automatically publishes after successful checks):
 
 1. Run the full checks and inspect the diff for source/generated parity. Review only the intended files; local tool state and design reference images are not release assets.
 2. Inspect desktop and narrow mobile layouts in light and dark themes, with keyboard navigation and reduced motion. Check the home, access, and privacy pages.
 3. Deliberately verify the real fonts and guide's initial dialog separately from the offline tests. Opening a dialog is not proof that video, audio, permissions, or provider requests work.
 4. For changes affecting the guide, verify its open panel and recovery states on the intended physical devices and browsers. A mocked widget, a mobile viewport, or an emulated browser engine does not establish physical-device behavior. Starting a real session requires an authorized pass key and permission for provider usage.
-5. Confirm the publishing target and custom-domain configuration before deployment. `dist/` is the release artifact; a local hosting binding or `CNAME` alone does not prove where production currently points. Publishing and deployment are separate, explicit actions.
+5. Confirm that GitHub Pages uses GitHub Actions, the `github-pages` environment permits `main`, and the custom domain and HTTPS remain configured. `dist/` is the release artifact; a local hosting binding or `CNAME` alone does not prove where production currently points.
 
 Keep any unperformed acceptance checks visible in the change description. Never report a live service, real device, or production deployment as verified from offline tests alone. `overflow-x: clip` also requires a supported browser; Safari versions before 16 need separate consideration.
 
