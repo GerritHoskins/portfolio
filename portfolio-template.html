@@ -65,7 +65,7 @@
     </button>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <section class="hero section-wrap" id="top" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Nürnberg, Germany <span class="eyebrow-divider">/</span> Product-focused engineering</p>
@@ -177,7 +177,7 @@
     <section class="contact section-wrap" id="contact" aria-labelledby="contact-title">
       <p class="section-kicker">Have something good in mind? <span>05</span></p>
       <div class="contact-content"><h2 id="contact-title">Let’s make it<br><em>work beautifully.</em></h2><div><p>I’m interested in thoughtful product teams working across web and mobile, developer experience, or AI-supported engineering.</p><a class="button button-primary" href="mailto:contact@pixeltronic.dev">Get in touch<span aria-hidden="true">↗</span></a></div></div>
-      <div class="contact-footer"><span>Nürnberg, Germany</span><div><a href="mailto:contact@pixeltronic.dev">Email</a><a href="https://www.linkedin.com/in/gerrit-hoskins/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div><span>© <span id="year">2026</span> pixeltronic.dev</span></div>
+      <div class="contact-footer"><span>Nürnberg, Germany</span><div><a href="mailto:contact@pixeltronic.dev">Email</a><a href="https://www.linkedin.com/in/gerrit-hoskins/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="privacy.html">Privacy</a></div><span>© <span id="year">2026</span> pixeltronic.dev</span></div>
     </section>
   </main>
   <script>
@@ -193,6 +193,10 @@
       toggle.addEventListener('click', function () { setOpen(!header.classList.contains('nav-open')); });
       nav.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
       header.addEventListener('click', function (e) { if (e.target === header) setOpen(false); });
+      // The menu is a disclosure: leaving the header also dismisses its scrim.
+      document.addEventListener('focusin', function (e) {
+        if (!header.contains(e.target)) setOpen(false);
+      });
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && header.classList.contains('nav-open')) { setOpen(false); toggle.focus(); }
       });

@@ -17,6 +17,7 @@
     .access h1 { margin: 14px 0 16px; font-size: clamp(2rem, 6vw, 2.9rem); line-height: 1.08; letter-spacing: -.055em; }
     .access .lede { margin: 0 0 32px; color: var(--text-light); }
     .access-form { display: grid; gap: 18px; padding: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; box-shadow: var(--shadow-lg); }
+    .access-form fieldset { display: grid; gap: 18px; min-width: 0; margin: 0; padding: 0; border: 0; }
     .access-form label { display: grid; gap: 6px; font-size: .86rem; font-weight: 700; }
     .access-form .hint { font-weight: 400; color: var(--text-light); font-size: .78rem; }
     .access-form input, .access-form textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--primary-dark); border-radius: 3px; background: var(--bg); color: var(--text); font: 400 .95rem var(--sans); }
@@ -26,7 +27,8 @@
     .access-form .row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
     .access-form button.button { border: 0; cursor: pointer; font: 800 .77rem var(--sans); }
     .access-form button.button:disabled { opacity: .65; cursor: default; transform: none; box-shadow: none; }
-    .count { font: 400 .62rem var(--mono); letter-spacing: .06em; color: var(--text-light); }
+    .count { font: 400 .75rem var(--mono); letter-spacing: .06em; color: var(--text-light); }
+    .form-help { margin: 18px 0 0; color: var(--text-light); font-size: .875rem; }
     .status { display: flex; gap: 8px; align-items: flex-start; margin: 0; font-size: .86rem; font-weight: 600; }
     .status[hidden] { display: none; }
     .status svg { flex: none; margin-top: 3px; }
@@ -40,11 +42,12 @@
   <header class="site-header">
     <a class="wordmark" href="/" aria-label="pixeltronic.dev, home">pixeltronic<span>.</span>dev</a>
   </header>
-  <main id="main" class="access">
+  <main id="main" class="access" tabindex="-1">
     <p class="eyebrow">Page guide · pass key</p>
     <h1>Request access to the page guide.</h1>
     <p class="lede">The AI avatar answers questions about my professional experience and public projects, in English or German. It is open to invited visitors with a pass key. Tell me who you are and how to reach you, and if it fits I will send you one.</p>
-    <form class="access-form" id="request-form" novalidate>
+    <form class="access-form" id="request-form" method="post" action="/access.html" novalidate>
+      <fieldset id="request-fields" disabled aria-label="Access request details">
       <label>Your name
         <input name="name" id="f-name" type="text" autocomplete="name" maxlength="80" required>
       </label>
@@ -57,11 +60,14 @@
       </label>
       <label class="trap" aria-hidden="true">Website <input name="website" id="f-website" type="text" tabindex="-1" autocomplete="off"></label>
       <div class="row">
-        <button class="button button-primary" id="f-send" type="submit">Send request</button>
+        <button class="button button-primary" id="f-send" type="submit" disabled>Send request</button>
         <span class="count" id="f-count" aria-hidden="true">0 / 500</span>
       </div>
+      </fieldset>
       <p class="status" id="status" hidden role="status"></p>
     </form>
+    <noscript><p class="form-help">JavaScript is required to send this form. You can request access by email instead.</p></noscript>
+    <p class="form-help">If the form is unavailable, email <a href="mailto:contact@pixeltronic.dev">contact@pixeltronic.dev</a>. Read how your request is handled in the <a href="/privacy.html">privacy information</a>.</p>
     <a class="text-link back" href="/"><span aria-hidden="true" style="padding:0 6px 0 0">←</span>Back to portfolio</a>
   </main>
   <script>
@@ -70,6 +76,8 @@
       var form = document.getElementById('request-form');
       var status = document.getElementById('status');
       var send = document.getElementById('f-send');
+      var fields = document.getElementById('request-fields');
+      var inFlight = false;
       var name = document.getElementById('f-name'), reply = document.getElementById('f-reply'), message = document.getElementById('f-message');
       var ICON = {
         err: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>',
@@ -83,22 +91,36 @@
       message.addEventListener('input', function () { document.getElementById('f-count').textContent = message.value.length + ' / 500'; });
       form.addEventListener('submit', function (event) {
         event.preventDefault();
+        if (inFlight) return;
         var bad = [];
         if (!name.value.trim()) bad.push(name);
         if (reply.value.trim().length < 3) bad.push(reply);
         [name, reply].forEach(function (el) { mark(el, bad.indexOf(el) !== -1); });
         if (bad.length) { show('err', 'Please fill in your name and how I can reach you.'); bad[0].focus(); return; }
-        send.disabled = true; status.hidden = true;
+        inFlight = true; send.disabled = true; status.hidden = true; form.setAttribute('aria-busy', 'true');
+        var controller = new AbortController();
+        var timeout = setTimeout(function () { controller.abort(); }, 15000);
         fetch(API, {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'omit', referrerPolicy: 'no-referrer',
+          signal: controller.signal,
           body: JSON.stringify({ name: name.value.trim(), reply: reply.value.trim(), message: message.value.trim(), website: document.getElementById('f-website').value })
         }).then(function (response) {
-          if (response.status === 429) { show('err', 'Too many requests from this connection. Please try again later.'); send.disabled = false; return; }
-          if (!response.ok) { show('err', 'The request could not be sent. Please check the form and try again.'); send.disabled = false; return; }
+          if (response.status === 429) { show('err', 'Too many requests from this connection. Please try again later.'); return; }
+          if (!response.ok) { show('err', 'The request could not be sent. Please check the form and try again.'); return; }
           form.reset(); document.getElementById('f-count').textContent = '0 / 500';
           show('ok', 'Request sent. If it fits, you will get a pass key at the contact you gave.');
-        }).catch(function () { show('err', 'The request could not be sent. Please check your connection and try again.'); send.disabled = false; });
+        }).catch(function (error) {
+          show('err', error.name === 'AbortError'
+            ? 'The server did not respond in time. Your request may have arrived. Please wait before trying again, or email me.'
+            : 'The request could not be confirmed. Please check your connection or contact me by email.');
+        }).finally(function () {
+          clearTimeout(timeout); inFlight = false; send.disabled = false; form.removeAttribute('aria-busy');
+        });
       });
+      // The static fallback remains disabled if this script cannot initialize.
+      if (typeof fetch === 'function' && typeof AbortController === 'function') {
+        fields.disabled = false; send.disabled = false;
+      }
     })();
   </script>
 </body>
