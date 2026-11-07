@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "portfolio-template.html"
+        ],
+        "createdAt": "2026-11-07T12:51:50.466Z",
+        "reason": "Agent: static detector combines light-theme blue elevation shadows with the dark-theme background. The rendered dark-theme elevation tokens use black; existing illustration shadows sit on light panels. No new glow was introduced by the keyboard fix."
+      }
+    ]
+  }
+}
