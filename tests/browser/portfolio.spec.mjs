@@ -92,12 +92,18 @@ test('mobile disclosure closes when keyboard focus leaves, on Escape, navigation
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
 });
 
-test('mobile menu remains usable at short viewport heights', async ({ page }) => {
+test('mobile menu remains usable at short viewport heights', async ({ page, browserName }) => {
+  test.skip(browserName === 'webkit' && process.platform === 'win32', 'Windows WebKit omits anchors from keyboard traversal; required on Linux CI.');
   await page.setViewportSize({ width: 390, height: 300 });
   await page.goto('/');
-  await page.locator('.nav-toggle').click();
+  await page.locator('.nav-toggle').focus();
+  await page.keyboard.press('Enter');
+  // Keyboard navigation must reveal the last item without a scripted scroll.
+  for (const link of await page.getByRole('navigation').getByRole('link').all()) {
+    await tab(page, browserName);
+    await expect(link).toBeFocused();
+  }
   const last = page.getByRole('navigation').getByRole('link', { name: 'GitHub profile' });
-  await last.focus();
   await expect(async () => {
     const bounds = await last.evaluate(element => {
       const box = element.getBoundingClientRect();

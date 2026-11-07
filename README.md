@@ -37,7 +37,7 @@ Browser regressions use local pages and intercept external requests. They must n
 
 CI installs the locked tools and browser engines, builds, runs `npm run check`, then runs `git diff --exit-code -- index.html dist` so an omitted generated update fails the job.
 
-Windows WebKit omits links from native Tab traversal, including on an isolated HTML page. Its three keyboard-link cases are explicitly skipped on Windows and required on Linux CI; Chromium and Firefox still run them. On macOS the tests use WebKit's Option+Tab link-navigation shortcut. A local engine launch failure is an environment failure, not a passing test; the complete three-engine CI run remains required.
+Windows WebKit omits links from native Tab traversal, including on an isolated HTML page. Its four keyboard-link cases are explicitly skipped on Windows and required on Linux CI; Chromium and Firefox still run them. On macOS the tests use WebKit's Option+Tab link-navigation shortcut. A local engine launch failure is an environment failure, not a passing test; the complete three-engine CI run remains required.
 
 ## Preview
 
