@@ -47,7 +47,7 @@ for (const width of [390, 1440]) {
       await tab(page, browserName);
       const skip = page.getByRole('link', { name: 'Skip to content' });
       await expect(skip).toBeFocused();
-      expect(await skip.evaluate(element => {
+      await expect.poll(() => skip.evaluate(element => {
         const box = element.getBoundingClientRect();
         return element.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
       })).toBe(true);
@@ -98,7 +98,7 @@ test('mobile menu remains usable at short viewport heights', async ({ page }) =>
   await page.locator('.nav-toggle').click();
   const last = page.getByRole('navigation').getByRole('link', { name: 'GitHub profile' });
   await last.focus();
-  expect(await last.evaluate(element => {
+  await expect.poll(() => last.evaluate(element => {
     const box = element.getBoundingClientRect();
     return box.top >= 0 && box.bottom <= innerHeight;
   })).toBe(true);
