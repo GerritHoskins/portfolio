@@ -98,10 +98,20 @@ test('mobile menu remains usable at short viewport heights', async ({ page }) =>
   await page.locator('.nav-toggle').click();
   const last = page.getByRole('navigation').getByRole('link', { name: 'GitHub profile' });
   await last.focus();
-  await expect.poll(() => last.evaluate(element => {
-    const box = element.getBoundingClientRect();
-    return box.top >= 0 && box.bottom <= innerHeight;
-  })).toBe(true);
+  await expect(async () => {
+    const bounds = await last.evaluate(element => {
+      const box = element.getBoundingClientRect();
+      const nav = element.closest('nav');
+      return {
+        fullyVisible: box.top >= 0 && box.bottom <= innerHeight,
+        link: { top: box.top, bottom: box.bottom, height: box.height },
+        nav: { top: nav.getBoundingClientRect().top, bottom: nav.getBoundingClientRect().bottom, scrollTop: nav.scrollTop, scrollHeight: nav.scrollHeight, clientHeight: nav.clientHeight },
+        viewport: innerHeight,
+        pageScroll: scrollY,
+      };
+    });
+    expect(bounds.fullyVisible, JSON.stringify(bounds)).toBe(true);
+  }).toPass({ timeout: 5000 });
 });
 
 test('theme choice survives reload and remains accessible with unavailable storage', async ({ page }) => {
