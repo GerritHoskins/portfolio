@@ -192,6 +192,16 @@
       }
       toggle.addEventListener('click', function () { setOpen(!header.classList.contains('nav-open')); });
       nav.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+      nav.addEventListener('focusin', function (e) {
+        var link = e.target.closest('a');
+        if (!link || !header.classList.contains('nav-open')) return;
+        // Keep the focused link and its outline inside the mobile scroll area.
+        var box = link.getBoundingClientRect();
+        var top = nav.getBoundingClientRect().top;
+        var bottom = top + nav.clientHeight;
+        if (box.top < top + 8) nav.scrollTop -= top + 8 - box.top;
+        else if (box.bottom > bottom - 8) nav.scrollTop += box.bottom - bottom + 8;
+      });
       header.addEventListener('click', function (e) { if (e.target === header) setOpen(false); });
       // The menu is a disclosure: leaving the header also dismisses its scrim.
       document.addEventListener('focusin', function (e) {
