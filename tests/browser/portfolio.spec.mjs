@@ -98,9 +98,13 @@ test('mobile menu remains usable at short viewport heights', async ({ page, brow
   await page.goto('/');
   await page.locator('.nav-toggle').focus();
   await page.keyboard.press('Enter');
+  await expect(page.locator('.nav-toggle')).toHaveAttribute('aria-expanded', 'true');
+  const navigation = page.getByRole('navigation');
   // Keyboard navigation must reveal the last item without a scripted scroll.
-  for (const link of await page.getByRole('navigation').getByRole('link').all()) {
+  for (const link of await navigation.getByRole('link').all()) {
     await tab(page, browserName);
+    // Firefox also includes an overflowing scroll container in the Tab order.
+    if (await navigation.evaluate(element => element === document.activeElement)) await tab(page, browserName);
     await expect(link).toBeFocused();
   }
   const last = page.getByRole('navigation').getByRole('link', { name: 'GitHub profile' });
