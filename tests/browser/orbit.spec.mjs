@@ -92,6 +92,35 @@ test('avatar lock reflects confirmed session access, not code entry or connectio
   }
 });
 
+test('mobile portrait and switch share one consent-gated on/off control', async ({ context, page }) => {
+  await mockWidget(context); await page.setViewportSize({width:413,height:915}); await page.goto('/');
+  const control = page.getByRole('switch', {name:'Live avatar',exact:true});
+  await expect(control).toHaveAttribute('aria-checked', 'false');
+  const caption = await page.locator('.identity-caption').boundingBox();
+  expect(caption.x).toBe(16); expect(caption.y).toBe(12);
+  const track = await page.locator('.avatar-control').boundingBox();
+  expect(Math.abs(track.x + track.width / 2 - 413 / 2)).toBeLessThan(1);
+  const thumb = page.locator('.portrait-orbit');
+  const off = await thumb.boundingBox();
+  // The portrait is part of the same hit target, not a second tab stop.
+  await page.mouse.click(off.x + off.width / 2, off.y + off.height / 2);
+  await expect(page.locator('pixeltronic-avatar [part="dialog"]')).toBeVisible();
+  await expect(control).toHaveAttribute('aria-checked', 'false');
+  await page.getByRole('button',{name:'Start with test consent'}).click();
+  await expect(control).toHaveAttribute('aria-checked', 'true');
+  await expect(page.locator('#guide-indicator')).toHaveText('On');
+  expect((await thumb.boundingBox()).x).toBeGreaterThan(off.x + 100);
+  await page.getByRole('textbox').fill('Keep this draft');
+  await control.press('Space');
+  await expect(control).toHaveAttribute('aria-checked', 'false');
+  await expect(page.locator('#guide-indicator')).toHaveText('Off');
+  await expect(page.getByRole('textbox')).toHaveValue('Keep this draft');
+  expect(await page.locator('pixeltronic-avatar').evaluate(el=>el.state)).toBe('off');
+  await page.setViewportSize({width:1440,height:900});
+  await expect(page.getByRole('button',{name:'Start avatar',exact:true})).toBeVisible();
+  await expect(page.locator('#guide-indicator')).toBeHidden();
+});
+
 test('Orbit fits fixed viewports in both themes with a usable transcript and composer', async ({ page }) => {
   await page.goto('/');
   for (const [width, height] of [[1440,900],[1024,768],[768,1024],[390,844],[320,640],[320,480],[844,390],[720,450]]) {
@@ -110,6 +139,59 @@ test('Orbit fits fixed viewports in both themes with a usable transcript and com
       await expect(page.getByRole('navigation')).toHaveCount(0);
     }
   }
+});
+
+test('orbits continue clockwise across reply completion and respect reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await expect(page.getByRole('button', { name: 'What have you built?', exact: true })).toBeVisible();
+  await page.evaluate(() => {
+    // Keep start, sampling and stop in one task so a slow browser cannot finish
+    // the typed reply before this regression exercises the busy-to-idle edge.
+    document.querySelector('#suggestions button').click();
+    window.orbits = [...document.querySelectorAll('.satellite-one, .satellite-two')].map(el => {
+      const animation = el.getAnimations()[0];
+      animation.pause(); animation.currentTime = 12000;
+      const angle = () => { const m = new DOMMatrix(getComputedStyle(el).transform); return Math.atan2(m.b, m.a) * 180 / Math.PI; };
+      const before = angle(); animation.currentTime = 13000;
+      const turn = (angle() - before + 360) % 360;
+      animation.currentTime = 12000;
+      return { el, animation, turn, transform: getComputedStyle(el).transform };
+    });
+    document.querySelector('#stop').click();
+  });
+  expect(await page.evaluate(() => window.orbits.every(({el,animation,turn,transform}) =>
+    el.getAnimations()[0] === animation && turn > 0 && turn < 15 && getComputedStyle(el).transform === transform))).toBe(true);
+  await page.evaluate(() => { document.querySelector('#suggestions button').click(); document.querySelector('#stop').click(); });
+  expect(await page.evaluate(() => window.orbits.every(({el,animation}) => el.getAnimations()[0] === animation))).toBe(true);
+  await page.evaluate(() => window.orbits.forEach(({animation}) => animation.play()));
+  await expect.poll(() => page.evaluate(() => window.orbits.every(({animation}) => animation.currentTime > 12000))).toBe(true);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect.poll(() => page.locator('.rings').evaluate(el => el.getAnimations({subtree:true}).length)).toBe(0);
+});
+
+test('mobile identity and scrolling history keep clear top and bottom space', async ({ page }) => {
+  await page.setViewportSize({width:394,height:853}); await page.goto('/');
+  await expect(page.locator('#avatar-status')).toHaveText('Fullstack Engineer, frontend focus');
+  await page.getByRole('button', {name:'What have you built?',exact:true}).click();
+  await page.getByRole('button', {name:'How can I reach you?',exact:true}).click();
+  const measure = () => page.evaluate(() => {
+    const rect = s => document.querySelector(s).getBoundingClientRect();
+    return { top:rect('#transcript').top - rect('.identity').bottom,
+      bottom:rect('.composer-area').top - rect('#transcript').bottom,
+      identity:rect('.identity').height };
+  });
+  const before = await measure();
+  expect(before.identity).toBeLessThan(180);
+  expect(Math.round(before.top)).toBeGreaterThanOrEqual(24);
+  expect(Math.round(before.bottom)).toBeGreaterThanOrEqual(24);
+  await page.locator('#transcript').evaluate(el => { el.scrollTop = el.scrollHeight / 3; el.dispatchEvent(new Event('scroll')); });
+  expect(await measure()).toEqual(before);
+  await page.locator('#latest').click();
+  const log = await page.locator('#transcript').boundingBox();
+  const copy = await page.locator('.reply').last().getByRole('button',{name:'Copy',exact:true}).boundingBox();
+  // scrollTop is rounded to device pixels; allow under one pixel of rounding.
+  expect(copy.y + copy.height).toBeLessThanOrEqual(log.y + log.height - 15);
 });
 
 test('local answers preserve draft, accumulate history, and pause following while reading', async ({ page }) => {
