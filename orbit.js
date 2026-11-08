@@ -176,7 +176,13 @@ function typeReply(text, kind, question, next) {
   };
   tick(); updateControls();
 }
-function resizeInput() { input.style.height = '44px'; input.style.height = `${Math.min(input.scrollHeight, document.body.hasAttribute('data-keyboard') ? 72 : 132)}px`; }
+function resizeInput() {
+  // Measure at full width before deciding whether a scrollbar is needed.
+  input.style.overflowY = 'hidden';
+  input.style.height = '44px';
+  input.style.height = `${Math.min(input.scrollHeight, document.body.hasAttribute('data-keyboard') ? 72 : 132)}px`;
+  input.style.overflowY = input.scrollHeight > input.clientHeight + 1 ? 'auto' : 'hidden';
+}
 function ask(question, fromInput) {
   question = question.trim().slice(0, 2000);
   if (!question || busy) return;

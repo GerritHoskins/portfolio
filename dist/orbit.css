@@ -83,7 +83,7 @@ pixeltronic-avatar::part(dialog) { top: max(12px,env(safe-area-inset-top)); max-
 #suggestions button:hover { background: var(--highlight); }
 #composer { display: flex; align-items: flex-end; gap: 4px; padding: 3px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
 #composer:focus-within { border-color: var(--text-accent); outline: 1px solid var(--text-accent); }
-#question { border: 0; outline: none; resize: none; background: transparent; flex: 1; min-width: 0; min-height: 44px; max-height: 132px; padding: 10px 8px; line-height: 24px; font-size: 16px; caret-color: var(--text-accent); scrollbar-width: thin; }
+#question { border: 0; outline: none; resize: none; overflow-y: hidden; background: transparent; flex: 1; min-width: 0; min-height: 44px; max-height: 132px; padding: 10px 8px; line-height: 24px; font-size: 16px; caret-color: var(--text-accent); scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 #question::placeholder { color: var(--text-light); opacity: 1; }
 #question:focus-visible { outline: none; }
 #send, #stop { background: var(--action); color: var(--action-text); }
