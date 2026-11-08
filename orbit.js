@@ -111,6 +111,7 @@ function setSuggestions(questions) {
 function updateControls() {
   busy = Boolean(localReply || live?.state === 'speaking' || live?.state === 'transcribing');
   document.body.toggleAttribute('data-busy', busy || live?.state === 'recording');
+  document.body.toggleAttribute('data-writing', Boolean(localReply || live?.state === 'speaking'));
   $('#send').hidden = busy; $('#stop').hidden = !busy;
   $('#send').disabled = !input.value.trim() || Boolean(live && activeStates.includes(live.state) && !live.canAsk);
   suggestions.hidden = busy || live?.state === 'recording';
@@ -322,6 +323,9 @@ function viewport() {
 }
 window.visualViewport?.addEventListener('resize', viewport);
 window.addEventListener('resize', viewport);
+function syncPageVisibility() { document.body.toggleAttribute('data-page-hidden', document.hidden); }
+document.addEventListener('visibilitychange', syncPageVisibility);
+syncPageVisibility();
 mobileAvatar.addEventListener('change', () => { if (mobileAvatar.matches) closePanel(false); syncAvatarControl(); });
 window.addEventListener('pagehide', () => { clearTimeout(timer); clearTimeout(announcementTimer); announcements.length = 0; adapter.stop(); });
 $('.portrait-fallback img').addEventListener('error', event => { event.target.hidden = true; });

@@ -170,6 +170,35 @@ test('orbits continue clockwise across reply completion and respect reduced moti
   await expect.poll(() => page.locator('.rings').evaluate(el => el.getAnimations({subtree:true}).length)).toBe(0);
 });
 
+test('reply activity animates only the surrounding rings, with a still reduced-motion cue', async ({ context, page }) => {
+  await mockWidget(context);
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto('/');
+  await expect(page.getByRole('button',{name:'What have you built?',exact:true})).toBeVisible();
+  // Exercise local start/stop in one task so typing cannot finish before sampling.
+  expect(await page.evaluate(() => {
+    document.querySelector('#suggestions button').click();
+    const writing = document.body.hasAttribute('data-writing');
+    document.querySelector('#stop').click();
+    return writing && !document.body.hasAttribute('data-writing');
+  })).toBe(true);
+  await activate(page);
+  await page.getByRole('textbox').fill('A live question'); await page.getByRole('textbox').press('Enter');
+  await expect(page.locator('body')).toHaveAttribute('data-writing', '');
+  await expect(page.locator('.communication-ring')).toHaveCSS('opacity', '1');
+  await expect(page.locator('.signal-wave').first()).toHaveCSS('animation-play-state', 'running');
+  expect(await page.locator('.portrait-fallback').evaluate(el => ({transform:getComputedStyle(el).transform, animations:el.getAnimations({subtree:true}).length}))).toEqual({transform:'none',animations:0});
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await expect.poll(() => page.locator('.rings').evaluate(el=>el.getAnimations({subtree:true}).length)).toBe(0);
+  await expect(page.locator('.signal-wave').first()).toHaveCSS('opacity', '0.65');
+  await expect(page.locator('.communication-ring')).toHaveCSS('opacity', '1');
+  for (const state of ['ready','recording','transcribing','off']) {
+    await page.locator('pixeltronic-avatar').evaluate((el,state)=>el.setState(state),state);
+    await expect(page.locator('body')).not.toHaveAttribute('data-writing');
+    await expect(page.locator('.communication-ring')).toHaveCSS('opacity','0');
+  }
+});
+
 test('mobile identity and scrolling history keep clear top and bottom space', async ({ page }) => {
   await page.setViewportSize({width:394,height:853}); await page.goto('/');
   await expect(page.locator('#avatar-status')).toHaveText('Fullstack Engineer, frontend focus');
