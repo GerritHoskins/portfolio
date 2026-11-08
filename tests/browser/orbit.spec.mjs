@@ -48,6 +48,34 @@ async function activate(page) {
   await page.getByRole('button', { name: 'Start with test consent' }).click();
 }
 
+test('composer hides its scrollbar until the draft exceeds its growing input', async ({ page }) => {
+  await page.setViewportSize({ width: 1025, height: 768 });
+  await page.goto('/');
+  const input = page.locator('#question');
+  const metrics = () => input.evaluate(el => ({
+    height: el.clientHeight, content: el.scrollHeight, overflow: getComputedStyle(el).overflowY,
+  }));
+  for (const draft of ['', 'A short question', 'First line\nSecond line']) {
+    await input.fill(draft);
+    const size = await metrics();
+    expect(size.overflow).toBe('hidden');
+    expect(size.content).toBeLessThanOrEqual(size.height + 1);
+  }
+  expect((await metrics()).height).toBeGreaterThan(44);
+  await input.fill(Array.from({ length: 12 }, (_, i) => `Draft line ${i + 1}`).join('\n'));
+  const long = await metrics();
+  expect(long.overflow).toBe('auto');
+  expect(long.content).toBeGreaterThan(long.height);
+  expect(long.height).toBeLessThanOrEqual(132);
+  await input.evaluate(el => { el.scrollTop = el.scrollHeight; });
+  expect(await input.evaluate(el => el.scrollTop)).toBeGreaterThan(0);
+  await page.setViewportSize({ width: 394, height: 853 });
+  await expect(input).toHaveCSS('overflow-y', 'auto');
+  await input.fill('Short again');
+  await expect(input).toHaveCSS('overflow-y', 'hidden');
+  expect((await metrics()).height).toBe(44);
+});
+
 test('visible Start avatar opens access-code consent directly and restores focus on cancel', async ({ context, page }) => {
   await mockWidget(context);
   await page.goto('/');
