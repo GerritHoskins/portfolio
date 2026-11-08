@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const sourceNames = ['portfolio-template.html', 'styles.css', 'access.html', 'privacy.html', 'og-image.png', 'avatar-poster.jpg'];
+const sourceNames = ['portfolio-template.html', 'styles.css', 'orbit.css', 'orbit.js', 'avatar-adapter.js', 'portfolio-content.js', 'access.html', 'privacy.html', 'og-image.png', 'avatar-poster.jpg'];
 const outputNames = ['index.html', ...sourceNames.slice(1)];
 const snapshot = new Map([...sourceNames, 'build-portfolio.js', 'package.json']
   .map((name) => [name, fs.readFileSync(path.join(root, name))]));
@@ -72,7 +72,7 @@ const invalidPages = [
   ['portfolio-template.html', 'missing language', (html) => html.replace('lang="en"', ''), /document language/],
   ['portfolio-template.html', 'missing stylesheet', (html) => html.replace('href="styles.css"', 'href="other.css"'), /reference styles.css/],
   ['portfolio-template.html', 'duplicate ID', (html) => html.replace('</body>', '<div id="main"></div></body>'), /duplicate element IDs/],
-  ['portfolio-template.html', 'missing fragment', (html) => html.replace('href="#work"', 'href="#not-a-section"'), /missing section/],
+  ['portfolio-template.html', 'missing fragment', (html) => html.replace('href="#main"', 'href="#not-a-section"'), /missing section/],
   ['access.html', 'missing body close', (html) => html.replace('</body>', ''), /opening and closing body/],
   ['privacy.html', 'duplicate html close', (html) => `${html}</html>`, /opening and closing html/],
   ['privacy.html', 'unshipped local link', (html) => html.replace('href="/access.html"', 'href="/missing.html"'), /unshipped local file/],

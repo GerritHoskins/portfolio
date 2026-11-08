@@ -42,7 +42,7 @@ for (const width of [390, 1440]) {
   test(`skip link is visible above the header and moves focus at ${width}px`, async ({ page, browserName }) => {
     test.skip(browserName === 'webkit' && process.platform === 'win32', 'Windows WebKit omits anchors from keyboard traversal; required on Linux CI.');
     await page.setViewportSize({ width, height: 844 });
-    for (const [path, firstTarget] of [['/', '.hero-actions a'], ['/access.html', '#f-name'], ['/privacy.html', 'main a']]) {
+    for (const [path, firstTarget] of [['/', '#guide-info'], ['/access.html', '#f-name'], ['/privacy.html', 'main a']]) {
       await page.goto(path);
       await tab(page, browserName);
       const skip = page.getByRole('link', { name: 'Skip to content' });
@@ -58,71 +58,6 @@ for (const width of [390, 1440]) {
     }
   });
 }
-
-test('mobile disclosure closes when keyboard focus leaves, on Escape, navigation and resize', async ({ page, browserName }) => {
-  test.skip(browserName === 'webkit' && process.platform === 'win32', 'Windows WebKit omits anchors from keyboard traversal; required on Linux CI.');
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
-  const toggle = page.locator('.nav-toggle');
-  const header = page.locator('.site-header');
-  await toggle.focus();
-  await page.keyboard.press('Enter');
-  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
-  // Traverse the real tab order rather than directly focusing the destination.
-  for (let i = 0; i < 8; i++) {
-    await tab(page, browserName);
-    if (!await header.evaluate(element => element.contains(document.activeElement))) break;
-  }
-  await expect(page.getByRole('link', { name: 'View my work' })).toBeFocused();
-  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
-  await toggle.click();
-  await page.keyboard.press('Escape');
-  await expect(toggle).toBeFocused();
-  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
-  await toggle.click();
-  await page.locator('.wordmark').focus();
-  await tab(page, browserName, true);
-  await expect(page.locator('.skip-link')).toBeFocused();
-  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
-  await toggle.click();
-  await page.getByRole('navigation').getByRole('link', { name: 'Selected work' }).click();
-  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
-  await toggle.click();
-  await page.setViewportSize({ width: 1024, height: 768 });
-  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
-});
-
-test('mobile menu remains usable at short viewport heights', async ({ page, browserName }) => {
-  test.skip(browserName === 'webkit' && process.platform === 'win32', 'Windows WebKit omits anchors from keyboard traversal; required on Linux CI.');
-  await page.setViewportSize({ width: 390, height: 300 });
-  await page.goto('/');
-  await page.locator('.nav-toggle').focus();
-  await page.keyboard.press('Enter');
-  await expect(page.locator('.nav-toggle')).toHaveAttribute('aria-expanded', 'true');
-  const navigation = page.getByRole('navigation');
-  // Keyboard navigation must reveal the last item without a scripted scroll.
-  for (const link of await navigation.getByRole('link').all()) {
-    await tab(page, browserName);
-    // Firefox also includes an overflowing scroll container in the Tab order.
-    if (await navigation.evaluate(element => element === document.activeElement)) await tab(page, browserName);
-    await expect(link).toBeFocused();
-  }
-  const last = page.getByRole('navigation').getByRole('link', { name: 'GitHub profile' });
-  await expect(async () => {
-    const bounds = await last.evaluate(element => {
-      const box = element.getBoundingClientRect();
-      const nav = element.closest('nav');
-      return {
-        fullyVisible: box.top >= 0 && box.bottom <= innerHeight,
-        link: { top: box.top, bottom: box.bottom, height: box.height },
-        nav: { top: nav.getBoundingClientRect().top, bottom: nav.getBoundingClientRect().bottom, scrollTop: nav.scrollTop, scrollHeight: nav.scrollHeight, clientHeight: nav.clientHeight },
-        viewport: innerHeight,
-        pageScroll: scrollY,
-      };
-    });
-    expect(bounds.fullyVisible, JSON.stringify(bounds)).toBe(true);
-  }).toPass({ timeout: 5000 });
-});
 
 test('theme choice survives reload and remains accessible with unavailable storage', async ({ page }) => {
   await page.goto('/');
@@ -150,6 +85,8 @@ test('content text meets contrast and essential metadata has a readable size in 
       else await expect(page.locator('html')).not.toHaveAttribute('data-theme', 'dark');
       for (const width of [390, 1440]) {
         await page.setViewportSize({ width, height: 900 });
+        // Hover must preserve contrast too, especially on dark suggestion chips.
+        if (path === '/') await page.locator('#suggestions button').first().hover();
         const failures = await page.evaluate(() => {
           const rgba = color => {
             const canvas = document.createElement('canvas');
@@ -169,7 +106,7 @@ test('content text meets contrast and essential metadata has a readable size in 
             .reduce((sum, value, i) => sum + value * [.2126, .7152, .0722][i], 0);
           const failures = [];
           for (const element of document.querySelectorAll('body *')) {
-            if (element.closest('[aria-hidden="true"], .sr-only, .skip-link, .project-visual, :disabled') || !element.checkVisibility()) continue;
+            if (element.closest('[aria-hidden="true"], .sr-only, .project-visual, :disabled') || !element.checkVisibility()) continue;
             if (![...element.childNodes].some(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim())) continue;
             const style = getComputedStyle(element);
             const bg = background(element), fg = over(rgba(style.color), bg);
@@ -187,46 +124,12 @@ test('content text meets contrast and essential metadata has a readable size in 
   }
 });
 
-test('local links and the privacy notice work without the optional guide', async ({ page }) => {
+test('local links and privacy work without the optional guide', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#guide-cta')).toBeHidden();
-  await expect(page.locator('.now-strip')).toContainText('Building fullstack TypeScript');
-  await page.getByRole('link', { name: 'Privacy', exact: true }).click();
+  await page.getByRole('button', { name: 'Privacy', exact: true }).click();
+  await page.getByRole('link', { name: 'Full privacy notice' }).click();
   await expect(page).toHaveURL(/\/privacy.html$/);
   await expect(page.locator('h1')).toHaveText('Privacy information');
   await page.getByRole('link', { name: 'Back to portfolio' }).click();
-  await expect(page.locator('h1')).toContainText('I build digital products');
-});
-
-test('guide state integration and narrow-panel layout work with an offline widget contract', async ({ context, page }) => {
-  await context.route('https://avatar.pixeltronic.dev/widget/avatar.js', route => route.fulfill({
-    contentType: 'text/javascript',
-    body: `customElements.define('pixeltronic-avatar', class extends HTMLElement {
-      state = 'off';
-      setState(state) { this.state = state; this.dispatchEvent(new Event('statechange')); }
-      start() { this.setAttribute('data-panel', ''); }
-      playIntro() { this.dataset.introPlayed = 'true'; }
-      ask(question) { this.dataset.question = question; }
-    });`,
-  }));
-  await page.goto('/');
-  const avatar = page.locator('pixeltronic-avatar');
-  const cta = page.locator('#guide-cta');
-  await expect(cta).toBeVisible();
-  await cta.click();
-  await expect(avatar).toHaveAttribute('data-panel', '');
-  for (const [state, mode] of [['connecting', 'connecting'], ['ready', 'live'], ['textOnly', 'dim'], ['ended', 'dim'], ['lost', 'dim']]) {
-    await avatar.evaluate((element, value) => element.setState(value), state);
-    await expect(page.locator('.hero')).toHaveAttribute('data-guide', mode);
-  }
-  await avatar.evaluate(element => element.setState('ready'));
-  await page.getByRole('button', { name: 'Web', exact: true }).click();
-  await expect(avatar).toHaveAttribute('data-question', 'Tell me about your web development experience.');
-  await cta.click();
-  await expect(avatar).toHaveAttribute('data-intro-played', 'true');
-  await page.setViewportSize({ width: 320, height: 568 });
-  await expect(page.locator('.now-strip')).toBeHidden();
-  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
-  await avatar.evaluate(element => element.removeAttribute('data-panel'));
-  await expect(page.locator('.now-strip')).toBeVisible();
+  await expect(page.locator('h1')).toHaveText('Gerrit Hoskins');
 });

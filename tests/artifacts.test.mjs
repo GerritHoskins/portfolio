@@ -12,7 +12,7 @@ test('checked-in generated files match their sources', () => {
   for (const [source, output] of [
     ['portfolio-template.html', 'index.html'],
     ['portfolio-template.html', 'dist/index.html'],
-    ...['styles.css', 'access.html', 'privacy.html', 'og-image.png', 'avatar-poster.jpg'].map(name => [name, `dist/${name}`]),
+    ...['styles.css', 'orbit.css', 'orbit.js', 'avatar-adapter.js', 'portfolio-content.js', 'access.html', 'privacy.html', 'og-image.png', 'avatar-poster.jpg'].map(name => [name, `dist/${name}`]),
   ]) assert.deepEqual(read(output), read(source), `${output} is stale; run npm run build:portfolio`);
 });
 
