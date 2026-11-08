@@ -2,7 +2,7 @@
 const GH='https://github.com/GerritHoskins/';
 const MAIL='mailto:contact@pixeltronic.dev';
 const TITLE='Fullstack Engineer, frontend focus';
-const INTRO=`Hi, I’m Gerrit Hoskins, a fullstack engineer with a frontend focus, working in TypeScript, Vue, Node.js and Ionic/Capacitor. One public example is my [Microsoft Clarity plugin for Capacitor](${GH}capacitor-clarity-plugin). Ask about my work, or [email me](${MAIL}).`;
+const INTRO=`Hi, I’m Gerrit Hoskins — ${TITLE}. I work with TypeScript, Vue, Node.js and Ionic/Capacitor. One public example is my [Microsoft Clarity plugin for Capacitor](${GH}capacitor-clarity-plugin). Ask about my work, or [email me](${MAIL}).`;
 const Q={built:'What have you built?',ai:'How do you use AI?',experience:'What experience do you bring?',contact:'How can I reach you?',rest:'Show the other projects',stack:'What’s your core stack?',hush:'Tell me about hushpush',conv:'What is the app conversion?',webview:'What is the WebView plugin?'};
 const INTRO_NEXT=[Q.built,Q.ai,Q.experience];
 const A={
