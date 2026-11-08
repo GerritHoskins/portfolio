@@ -7,6 +7,11 @@ const distPath = path.join(root, 'dist');
 const sources = new Map([
   ['index.html', 'portfolio-template.html'],
   ['styles.css', 'styles.css'],
+  ['orbit.css', 'orbit.css'],
+  ['orbit.js', 'orbit.js'],
+  ['avatar-adapter.js', 'avatar-adapter.js'],
+  ['portfolio-content.js', 'portfolio-content.js'],
+
   ['access.html', 'access.html'],
   ['privacy.html', 'privacy.html'],
   ['og-image.png', 'og-image.png'],

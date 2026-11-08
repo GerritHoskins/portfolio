@@ -1,0 +1,135 @@
+/* Orbit: the approved fixed-screen portfolio. Shared document styles stay separate. */
+.orbit-page { --action: #213448; --action-text: #f5f1e8; --hover: rgba(33,52,72,.06); --highlight: var(--primary-light); position: fixed; inset: 0; height: var(--viewport-height,100dvh); overflow: hidden; display: flex; flex-direction: column; }
+[data-theme="dark"] .orbit-page { --action: #a6c7d6; --action-text: #1a2635; --hover: rgba(234,224,207,.07); --highlight: #3d4f66; }
+.orbit-page [hidden] { display: none !important; }
+.orbit-page ::selection { background: var(--highlight); color: var(--text); }
+.orbit-page :focus-visible { outline: 2px solid var(--text-accent); outline-offset: 2px; }
+.orbit-page button, .orbit-page textarea { font: inherit; color: inherit; }
+.orbit-page button { cursor: pointer; border: 0; border-radius: 10px; min-height: 44px; }
+.orbit-page button:disabled { cursor: default; color: var(--text-light); background: transparent; opacity: .6; }
+.orbit-page svg:not(.rings) { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.orbit-page a { color: var(--text-accent); text-decoration: underline; text-decoration-color: var(--primary); text-underline-offset: 3px; text-decoration-thickness: 1px; overflow-wrap: anywhere; }
+.orbit-page a:hover { color: var(--text); text-decoration-color: currentColor; }
+.orbit-page .skip-link, .orbit-page .skip-link:hover { background: var(--text); color: var(--bg); }
+.quiet-button { background: transparent; padding: 0 12px; color: var(--text-light) !important; }
+.quiet-button:hover { background: var(--hover); color: var(--text) !important; }
+.icon-button { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; flex: none; }
+.solid-button { background: var(--action); color: var(--action-text) !important; padding: 0 18px; font-size: 14px !important; font-weight: 600 !important; }
+.solid-button:hover, #send:not(:disabled):hover, #stop:hover { filter: brightness(1.12); }
+.orbit-bar { display: flex; align-items: center; flex: none; gap: 2px; min-height: 56px; padding: 6px 40px 6px 48px; max-width: 1400px; width: 100%; margin: 0 auto; }
+.orbit-wordmark { flex: 1; font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+#theme { margin-left: auto; }
+.orbit-page .orbit-start { grid-area: action; position: relative; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; margin-top: -24px; padding: 0 22px; border-radius: 24px; background: var(--action); color: var(--action-text); font-size: 15px; font-weight: 600; }
+.orbit-start:hover { filter: brightness(1.12); }
+.orbit-page .orbit-start:disabled { background: var(--action); color: var(--action-text); }
+.orbit-page .orbit-start svg { width: 18px; height: 18px; }
+.orbit-main { flex: 1; min-height: 0; display: flex; gap: 56px; padding: 4px 48px 32px; width: 100%; max-width: 1400px; margin: 0 auto; overflow: visible; }
+.identity { width: clamp(320px,40vw,560px); flex: none; display: grid; grid-template-areas: 'orbit' 'action' 'caption'; grid-template-columns: 100%; justify-items: center; align-content: center; padding-bottom: 40px; }
+.portrait-orbit { grid-area: orbit; position: relative; width: min(calc(100% - 48px),440px,calc(100dvh - 224px)); aspect-ratio: 1; flex: none; }
+.rings { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.rings > circle { fill: none; stroke: var(--text); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.rings .ring-outer { opacity: .3; }
+.rings .ring-mid { stroke: var(--primary-dark); opacity: .9; stroke-dasharray: 3 5; }
+[data-theme="dark"] .rings .ring-mid { stroke: var(--text-accent); }
+.rings .ring-inner { opacity: .24; }
+.satellite-one { transform-origin: 168px 168px; transform: rotate(28deg); fill: var(--text-accent); }
+.satellite-two { transform-origin: 168px 168px; transform: rotate(-34deg); fill: var(--text); }
+.orbit-page[data-busy] .satellite-one { animation: orbit-forward 48s linear infinite; }
+.orbit-page[data-busy] .satellite-two { animation: orbit-reverse 32s linear infinite; }
+@keyframes orbit-forward { from { transform: rotate(28deg); } to { transform: rotate(388deg); } }
+@keyframes orbit-reverse { from { transform: rotate(-34deg); } to { transform: rotate(-394deg); } }
+.portrait-fallback { position: absolute; inset: 27.5%; border-radius: 50%; overflow: hidden; background: var(--bg-deep); outline: 1px solid var(--border); display: grid; place-items: center; }
+.portrait-fallback span { font: 12px/1.3 var(--mono); text-align: center; padding: 8px; }
+.portrait-fallback img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
+pixeltronic-avatar { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; max-width: none !important; --radius-l: 14px; --radius-m: 10px; }
+pixeltronic-avatar::part(stage) { width: 45%; height: 45%; transform: translate(-50%,-50%); box-shadow: none; opacity: 1; }
+pixeltronic-avatar::part(panel), pixeltronic-avatar::part(pill), pixeltronic-avatar::part(badge), pixeltronic-avatar::part(backdrop) { display: none !important; }
+pixeltronic-avatar::part(dialog) { top: max(12px,env(safe-area-inset-top)); max-height: calc(var(--viewport-height,100dvh) - 24px); }
+.identity-caption { grid-area: caption; text-align: center; min-width: 0; margin-top: 24px; }
+.identity h1 { font-size: 28px; line-height: 1.15; letter-spacing: -.01em; margin: 0 0 5px; font-weight: 700; text-wrap: balance; }
+.identity p { margin: 0; color: var(--text-light); font: 400 12px/1.4 var(--mono); }
+.conversation { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; max-width: 760px; }
+.log-wrap { flex: 1; min-height: 0; position: relative; }
+.log-wrap[data-clipped]::before { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--border); content: ''; z-index: 1; }
+#transcript { height: 100%; overflow-y: auto; overscroll-behavior: contain; overflow-anchor: none; scroll-behavior: auto; padding: 28px 6px 24px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; font-size: 17px; line-height: 1.65; }
+#transcript::-webkit-scrollbar { width: 8px; }
+#transcript::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.reply { max-width: 62ch; margin: 0 0 26px; overflow-wrap: anywhere; }
+.reply-text p { margin: 0 0 .8em; text-wrap: pretty; }
+.reply-text p:last-child { margin-bottom: 0; }
+.reply[aria-busy="true"] .reply-text::after { content: ''; display: inline-block; width: 2px; height: 1em; background: var(--text-accent); animation: orbit-caret 1s steps(1) infinite; }
+@keyframes orbit-caret { 50% { opacity: 0; } }
+.reply-note { color: var(--text-light); font: 12px/1.5 var(--mono); margin-bottom: 6px; }
+.user-message { margin: 6px 0 22px auto; padding: 11px 16px; border-radius: 14px; width: fit-content; max-width: 90%; background: var(--surface); overflow-wrap: anywhere; white-space: pre-wrap; }
+.reply-actions { display: flex; flex-wrap: wrap; margin: 2px 0 0 -12px; }
+.reply-actions button { font: 12px var(--mono); display: flex; align-items: center; gap: 7px; }
+.reply-actions svg { width: 16px !important; height: 16px !important; }
+#latest { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 7px; border-radius: 22px; box-shadow: 0 6px 18px rgba(33,52,72,.18); }
+.composer-area { flex: none; padding-top: 8px; display: flex; flex-direction: column; gap: 8px; }
+#suggestions { display: flex; flex-wrap: wrap; gap: 8px; }
+#suggestions button { background: var(--surface); border: 0; border-radius: 22px; padding: 8px 16px; font-size: 14px; font-weight: 600; text-align: left; line-height: 1.4; color: var(--text) !important; }
+#suggestions button:hover { background: var(--highlight); }
+#composer { display: flex; align-items: flex-end; gap: 4px; padding: 3px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+#composer:focus-within { border-color: var(--text-accent); outline: 1px solid var(--text-accent); }
+#question { border: 0; outline: none; resize: none; background: transparent; flex: 1; min-width: 0; min-height: 44px; max-height: 132px; padding: 10px 8px; line-height: 24px; font-size: 16px; caret-color: var(--text-accent); scrollbar-width: thin; }
+#question::placeholder { color: var(--text-light); opacity: 1; }
+#question:focus-visible { outline: none; }
+#send, #stop { background: var(--action); color: var(--action-text); }
+#send:disabled { background: transparent; color: var(--text-light); opacity: 1; }
+#voice[aria-pressed="true"] { background: var(--primary-light); color: #213448 !important; }
+#input-hint { font: 12px/1.5 var(--mono); color: var(--text-light); }
+#notice { font-size: 14px; line-height: 1.5; background: var(--surface); border-radius: 12px; padding: 10px 14px; max-height: 100px; overflow-y: auto; }
+#recovery { display: flex; flex-wrap: wrap; }
+#recovery button { font-size: 14px; }
+.utility-panel { position: absolute; top: 56px; right: max(12px,calc((100% - 1400px)/2 + 40px)); z-index: 50; width: 340px; max-width: calc(100% - 24px); max-height: calc(100% - 68px); overflow-y: auto; padding: 6px 16px 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.panel-heading { display: flex; align-items: center; gap: 8px; }
+.panel-heading h2 { flex: 1; margin: 0; font-size: 15px; font-weight: 700; }
+.utility-panel p { font-size: 14px; line-height: 1.55; margin: 6px 0 12px; }
+.utility-panel > a { font-size: 14px; display: flex; align-items: center; min-height: 44px; width: fit-content; }
+.utility-panel > button { margin-bottom: 4px; }
+@media (900px <= width < 1200px) and (min-height:500px) {
+  .orbit-bar { padding: 6px 24px 6px 32px; }
+  .orbit-main { gap: 40px; padding: 4px 32px 28px; }
+  .identity { width: clamp(320px,36vw,560px); }
+}
+@media (max-width:899px), (max-height:499px) {
+  .orbit-bar { min-height: 52px; padding: 2px 6px 2px 16px; }
+  .orbit-wordmark { display: none; }
+  .orbit-main { flex-direction: column; gap: 6px; padding: 0 16px 12px; max-width: 720px; }
+  .identity { width: 100%; padding: 0; }
+  .identity-caption { margin-top: 10px; }
+  .portrait-orbit { width: 180px; }
+  .identity h1 { font-size: 20px; }
+  .conversation { max-width: none; }
+  #transcript { padding: 14px 4px 16px; font-size: 16px; }
+  .composer-area { padding-top: 4px; }
+  #suggestions { flex-wrap: nowrap; }
+  #suggestions button { flex: 1; text-align: center; }
+  .utility-panel { top: 52px; }
+}
+@media (600px <= width < 900px) and (min-height:700px) {
+  .orbit-main { padding: 0 32px 20px; }
+  .portrait-orbit { width: 220px; }
+  .identity h1 { font-size: 24px; }
+}
+@media (max-width:899px) and (max-height:699px), (max-height:499px) {
+  .identity { grid-template-areas: 'orbit caption' 'orbit action'; grid-template-columns: 112px minmax(0,1fr); column-gap: 14px; row-gap: 6px; align-items: center; justify-items: start; }
+  .identity-caption { text-align: left; margin-top: 0; align-self: end; }
+  .orbit-page .orbit-start { margin-top: 0; min-height: 44px; padding-inline: 16px; font-size: 14px; align-self: start; }
+  .portrait-orbit { width: 112px; }
+}
+@media (max-width:899px) and (max-height:559px), (max-height:499px) {
+  .identity { grid-template-columns: 84px minmax(0,1fr); }
+  .portrait-orbit { width: 84px; }
+  .identity h1 { font-size: 18px; }
+  #input-hint { font-size: 12px; }
+}
+.orbit-page[data-keyboard] .identity { grid-template-areas: 'orbit caption' 'orbit action'; grid-template-columns: 60px minmax(0,1fr); column-gap: 14px; row-gap: 6px; justify-items: start; align-items: center; padding: 0; width: 100%; }
+.orbit-page[data-keyboard] .orbit-start { margin-top: 0; min-height: 44px; padding-inline: 16px; font-size: 14px; align-self: start; }
+.orbit-page[data-keyboard] .portrait-orbit { width: 60px; }
+.orbit-page[data-keyboard] .identity-caption { text-align: left; margin-top: 0; align-self: end; }
+.orbit-page[data-keyboard] .identity h1 { font-size: 18px; }
+.orbit-page[data-keyboard] #suggestions { display: none; }
+.orbit-page[data-keyboard] #question { max-height: 72px; }
+@media (max-width:339px) { .identity p { max-width: 170px; } #suggestions button { padding-inline: 8px; } }
+@media (prefers-reduced-motion: reduce) { .orbit-page *, .orbit-page *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
