@@ -177,7 +177,7 @@ test('orbits continue clockwise across reply completion and respect reduced moti
     // Keep start, sampling and stop in one task so a slow browser cannot finish
     // the typed reply before this regression exercises the busy-to-idle edge.
     document.querySelector('#suggestions button').click();
-    window.orbits = [...document.querySelectorAll('.satellite-one, .satellite-two')].map(el => {
+    window.orbits = [...document.querySelectorAll('.satellite-one, .satellite-two, .inner-orbit-plane')].map(el => {
       const animation = el.getAnimations()[0];
       animation.pause(); animation.currentTime = 12000;
       const angle = () => { const m = new DOMMatrix(getComputedStyle(el).transform); return Math.atan2(m.b, m.a) * 180 / Math.PI; };
