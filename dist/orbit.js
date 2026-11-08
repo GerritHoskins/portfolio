@@ -1,10 +1,11 @@
-import { INTRO, INTRO_NEXT, A, match } from './portfolio-content.js';
+import { TITLE, INTRO, INTRO_NEXT, A, match } from './portfolio-content.js';
 import { AvatarAdapter } from './avatar-adapter.js';
 
 const $ = selector => document.querySelector(selector);
 const log = $('#transcript'), input = $('#question'), suggestions = $('#suggestions');
 const announcer = $('#announcer'), notice = $('#notice');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const mobileAvatar = matchMedia('(max-width: 599px)');
 let following = true, lastScroll = 0, timer, localReply, busy = false, live = null, lastQuestion = '', opening = false;
 let panel, panelOpener, guideOpener, previousState = 'off', announcementTimer;
 const announcements = [];
@@ -119,9 +120,33 @@ function updateControls() {
   $('#end-guide').hidden = !live || !activeStates.includes(live.state);
   $('#start-guide').hidden = Boolean(live && activeStates.includes(live.state));
   $('#guide-info').disabled = opening;
+  syncAvatarControl();
   if (!live || !activeStates.includes(live.state)) $('#avatar-status').textContent = localReply ? (localReply.kind === 'welcome' ? 'Introducing…' : 'Replying…') : defaultSubtitle();
 }
-function defaultSubtitle() { return innerWidth < 360 ? 'Frontend & mobile' : 'Frontend & cross-platform mobile'; }
+function defaultSubtitle() { return TITLE; }
+function syncAvatarControl() {
+  const control = $('#guide-info'), admitted = Boolean(live?.canAsk);
+  $('.avatar-control').dataset.access = admitted ? 'unlocked' : 'locked';
+  $('#guide-indicator').textContent = opening ? 'Loading…' : live?.state === 'connecting' && !admitted ? 'Connecting…' : admitted ? 'On' : 'Off';
+  if (mobileAvatar.matches) {
+    control.setAttribute('role', 'switch');
+    control.setAttribute('aria-label', 'Live avatar');
+    control.setAttribute('aria-checked', String(admitted));
+    control.removeAttribute('aria-expanded');
+    control.removeAttribute('aria-controls');
+    control.removeAttribute('aria-haspopup');
+    $('#guide-label').textContent = admitted ? 'Avatar on' : live?.state === 'connecting' ? 'Connecting…' : 'Start avatar';
+    control.title = admitted ? 'Turn off the avatar' : 'Enter your access code to start the avatar';
+  } else {
+    control.removeAttribute('role'); control.removeAttribute('aria-label'); control.removeAttribute('aria-checked');
+    control.setAttribute('aria-haspopup', 'dialog');
+    control.setAttribute('aria-expanded', String(panel === $('#guide-panel') || Boolean(live?.dialogOpen)));
+    const active = live && activeStates.includes(live.state);
+    if (active) control.setAttribute('aria-controls', 'guide-panel'); else control.removeAttribute('aria-controls');
+    control.title = active ? 'Live avatar session details' : 'Enter your access code to start the avatar';
+    $('#guide-label').textContent = active ? 'Live AI guide' : 'Start avatar';
+  }
+}
 function addRetry(reply) {
   if (reply.retry || !reply.question) return;
   reply.retry = action('Retry', 'retry', () => ask(reply.question, false)); reply.actions.append(reply.retry);
@@ -257,7 +282,8 @@ function togglePanel(next, opener) {
   panel = next; panelOpener = opener; panel.hidden = false; opener.setAttribute('aria-expanded', 'true'); panel.querySelector('.close-panel').focus();
 }
 $('#guide-info').addEventListener('click', event => {
-  if (live && activeStates.includes(live.state)) togglePanel($('#guide-panel'), event.currentTarget);
+  if (mobileAvatar.matches && live && activeStates.includes(live.state)) { adapter.stop(); closePanel(false); }
+  else if (live && activeStates.includes(live.state)) togglePanel($('#guide-panel'), event.currentTarget);
   else startGuide(event.currentTarget);
 });
 $('#privacy').addEventListener('click', event => togglePanel($('#privacy-panel'), event.currentTarget));
@@ -273,15 +299,30 @@ themeButton.addEventListener('click', () => {
   syncTheme();
 });
 syncTheme();
+function centerMobileAvatar() {
+  if (!mobileAvatar.matches) return;
+  const control = $('.avatar-control');
+  const box = control.getBoundingClientRect();
+  const caption = $('.identity-caption').getBoundingClientRect();
+  const currentOffset = parseFloat(control.style.getPropertyValue('--avatar-center-offset')) || 0;
+  const targetTop = (caption.bottom + log.getBoundingClientRect().top - box.height) / 2;
+  control.style.setProperty('--avatar-center-offset', `${targetTop - box.top + currentOffset}px`);
+}
+// Keep equal visual gaps even when the title wraps or the keyboard resizes chat.
+const avatarSpacing = new ResizeObserver(centerMobileAvatar);
+avatarSpacing.observe($('.identity-caption'));
+avatarSpacing.observe(log);
 function viewport() {
   const view = window.visualViewport;
   document.body.style.setProperty('--viewport-height', `${view?.height || innerHeight}px`);
   document.body.toggleAttribute('data-keyboard', Boolean(view && innerHeight - view.height > 100));
   if (!busy && (!live || !activeStates.includes(live.state))) $('#avatar-status').textContent = defaultSubtitle();
   resizeInput(); afterText();
+  syncAvatarControl();
 }
 window.visualViewport?.addEventListener('resize', viewport);
 window.addEventListener('resize', viewport);
+mobileAvatar.addEventListener('change', () => { if (mobileAvatar.matches) closePanel(false); syncAvatarControl(); });
 window.addEventListener('pagehide', () => { clearTimeout(timer); clearTimeout(announcementTimer); announcements.length = 0; adapter.stop(); });
 $('.portrait-fallback img').addEventListener('error', event => { event.target.hidden = true; });
 input.disabled = false; $('#voice').disabled = false;
