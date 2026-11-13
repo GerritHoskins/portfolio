@@ -257,12 +257,12 @@ test('local answers preserve draft, accumulate history, and pause following whil
   await page.getByRole('textbox').fill('Keep this draft');
   await page.getByRole('button', {name:'What have you built?',exact:true}).click();
   await expect(page.getByRole('textbox')).toHaveValue('Keep this draft');
-  await expect(page.locator('#transcript')).toContainText('charge-portal');
+  await expect(page.locator('#transcript')).toContainText('Poll Pay');
   await page.getByRole('button', {name:'Show the other projects',exact:true}).click();
-  await expect(page.locator('#transcript')).toContainText('hushpush');
+  await expect(page.locator('#transcript')).toContainText('charge-portal');
   await page.locator('#transcript').evaluate(el => { el.scrollTop = 0; el.dispatchEvent(new Event('scroll')); });
   await expect(page.locator('#latest')).toBeVisible();
-  await page.getByRole('button', {name:'Tell me about hushpush',exact:true}).click();
+  await page.getByRole('button', {name:'What is the app conversion?',exact:true}).click();
   expect(await page.locator('#transcript').evaluate(el=>el.scrollTop)).toBe(0);
   await page.locator('#latest').click(); await expect(page.locator('#latest')).toBeHidden();
   expect(widgetRequests).toBe(0);
@@ -273,16 +273,16 @@ test('Stop keeps only visible text, copy does not expose unseen text, retry keep
   await page.addInitScript(() => { window.copies=[];Object.defineProperty(navigator,'clipboard',{value:{writeText: async text=>window.copies.push(text)}}); });
   await page.goto('/');
   await page.getByRole('button', {name:'What have you built?',exact:true}).click();
-  await expect(page.locator('.reply').last().locator('.reply-text')).toContainText('Two');
+  await expect(page.locator('.reply').last().locator('.reply-text')).toContainText('Three');
   await page.getByRole('button', {name:'Stop reply',exact:true}).click();
   const partial = await page.locator('.reply').last().locator('.reply-text').innerText();
-  expect(partial).not.toContain('There are four more');
+  expect(partial).not.toContain('There are three more');
   await page.locator('.reply').last().getByRole('button',{name:'Copy',exact:true}).click();
   expect((await page.evaluate(()=>window.copies))[0].trim()).toBe(partial.trim());
   await page.getByRole('textbox').fill('Draft stays');
   await page.getByRole('button',{name:'Retry',exact:true}).click();
   await expect(page.getByRole('textbox')).toHaveValue('Draft stays');
-  await expect(page.locator('.reply').last()).toContainText('There are four more', {timeout:12000});
+  await expect(page.locator('.reply').last()).toContainText('There are three more', {timeout:12000});
 });
 
 test('clipboard denial selects text; panels restore focus and unknown questions stay honest', async ({ page }) => {
@@ -305,7 +305,7 @@ test('failed widget loading preserves a useful page and draft', async ({ page })
   await expect(page.locator('#notice')).toContainText('could not be loaded');
   await expect(page.getByRole('textbox')).toHaveValue('My question');
   await page.getByRole('button',{name:'What have you built?',exact:true}).click();
-  await expect(page.locator('#transcript')).toContainText('charge-portal');
+  await expect(page.locator('#transcript')).toContainText('Poll Pay');
 });
 
 test('privacy and live-session panels toggle when their button icon is clicked', async ({ context, page }) => {
@@ -378,7 +378,7 @@ test('voice uses native recording/send actions and live errors offer prewritten 
   await page.getByRole('textbox').fill('Next draft');
   await page.locator('pixeltronic-avatar').evaluate(el=>el.fail('Reply failed. Try again.'));
   await page.getByRole('button',{name:'Show prewritten answer'}).click();
-  await expect(page.locator('#transcript')).toContainText('charge-portal');
+  await expect(page.locator('#transcript')).toContainText('Poll Pay');
   await expect(page.getByRole('textbox')).toHaveValue('Next draft');
 });
 
