@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data:; font-src https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'sha256-foIoXnMChJvrgp0SndQjXSAHLPOgihwxm/n3cczj8BE='; connect-src https://avatar.pixeltronic.dev">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data:; font-src https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'sha256-foIoXnMChJvrgp0SndQjXSAHLPOgihwxm/n3cczj8BE=' https://static.cloudflareinsights.com; connect-src https://avatar.pixeltronic.dev https://cloudflareinsights.com">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="theme-color" content="#eae0cf">
   <meta name="robots" content="noindex">
@@ -94,5 +94,6 @@
     <a class="back" href="/"><span aria-hidden="true" style="padding:0 6px 0 0">←</span>Back to portfolio</a>
   </main>
   <script src="access.js"></script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "58c27efade08486bbb3d61748aef43eb"}'></script>
 </body>
 </html>

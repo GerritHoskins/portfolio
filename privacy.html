@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data:; font-src https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'sha256-foIoXnMChJvrgp0SndQjXSAHLPOgihwxm/n3cczj8BE='">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data:; font-src https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'sha256-foIoXnMChJvrgp0SndQjXSAHLPOgihwxm/n3cczj8BE=' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="theme-color" content="#eae0cf">
   <meta name="robots" content="noindex">
@@ -44,7 +44,7 @@
     <p>The guide is an <strong>AI avatar</strong> with a look-alike face and a synthetic voice. It is not a live person. It answers questions about my professional experience and public projects, and its answers can be wrong. Please do not share private information with it.</p>
 
     <h2>It is off until you turn it on</h2>
-    <p>Opening the portfolio downloads fonts from <strong>Google Fonts</strong> and the <strong>Cloudflare Web Analytics</strong> script. Choosing Start avatar or Use voice also downloads the guide’s JavaScript from <strong>avatar.pixeltronic.dev</strong>. These resource requests occur before you start the guide and expose ordinary connection information, such as your network address, to the servers serving them.</p>
+    <p>Opening any page of the portfolio downloads fonts from <strong>Google Fonts</strong> and the <strong>Cloudflare Web Analytics</strong> script. Choosing Start avatar or Use voice also downloads the guide’s JavaScript from <strong>avatar.pixeltronic.dev</strong>. These resource requests occur before you start the guide and expose ordinary connection information, such as your network address, to the servers serving them.</p>
     <p>Downloading those resources does not start a conversation or request microphone access. Turning on the guide opens a dialog. A conversation session is requested only after you enter a pass key, agree to the notice, and press Start. Voice recording requires a separate tap on the microphone.</p>
 
     <h2>What happens when you start a conversation</h2>
@@ -73,12 +73,13 @@
     <p>If you tick "Remember on this device", your pass key is saved in your browser's local storage so you do not have to type it again. Otherwise it is held only for the current tab. "Forget key" removes it. The guide itself sets no cookies.</p>
 
     <h2>Site statistics</h2>
-    <p>The portfolio page uses Cloudflare Web Analytics to count visits in aggregate. The guide itself adds no tracking.</p>
+    <p>Every page of the portfolio, including this one and the access request page, uses Cloudflare Web Analytics to count visits in aggregate. The guide itself adds no tracking.</p>
 
     <h2>Your rights</h2>
     <p>You can ask what I hold about you, ask me to correct or delete it, or object to its use. Use the <a href="/access.html">request form</a> and say that it is a privacy request. If you are in the EU, you can also complain to your local data protection authority.</p>
 
     <a class="text-link back" href="/"><span aria-hidden="true" style="padding:0 6px 0 0">←</span>Back to portfolio</a>
   </main>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "58c27efade08486bbb3d61748aef43eb"}'></script>
 </body>
 </html>
