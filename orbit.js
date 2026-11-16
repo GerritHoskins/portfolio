@@ -106,8 +106,17 @@ function showReply(reply, text, done = false) {
 }
 function userMessage(text) { const p = document.createElement('p'); p.className = 'user-message'; p.textContent = text; p.setAttribute('aria-label', 'Your question'); log.append(p); afterText(); return p; }
 // Counts which suggested questions get clicked (question text only, see privacy.html).
+// Opening the site once with ?noclicks stops counting in this browser; ?clicks turns it back on.
 const CLICKS = 'https://avatar.pixeltronic.dev/api/suggestion-click';
+const NO_CLICKS = 'pxt-no-clicks';
+try {
+  const params = new URLSearchParams(location.search);
+  if (params.has('noclicks')) localStorage.setItem(NO_CLICKS, '1');
+  else if (params.has('clicks')) localStorage.removeItem(NO_CLICKS);
+} catch { /* Without storage, clicks are counted as usual. */ }
+function clicksOff() { try { return localStorage.getItem(NO_CLICKS) === '1'; } catch { return false; } }
 function countClick(question) {
+  if (clicksOff()) return;
   try {
     fetch(CLICKS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ q: question }), keepalive: true }).catch(() => {});
   } catch { /* Counting never blocks asking. */ }
