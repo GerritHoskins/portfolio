@@ -399,3 +399,19 @@ test('avatar question explains the live guide and links to the pass-key request'
   await expect(reply.getByRole('link',{name:'request form',exact:true})).toHaveAttribute('href','https://pixeltronic.dev/access.html');
   await expect(page.getByRole('button', {name:'How can I reach you?',exact:true})).toBeVisible();
 });
+
+test('suggested question buttons count the clicked question and nothing else', async ({ context, page }) => {
+  const posts = [];
+  await context.route('https://avatar.pixeltronic.dev/api/suggestion-click', route => {
+    posts.push(route.request().postDataJSON()); route.fulfill({ status: 202, body: '{"status":"counted"}' });
+  });
+  await page.goto('/');
+  const first = page.locator('#suggestions button').first();
+  await expect(first).toBeVisible();
+  const question = (await first.textContent()).trim();
+  await first.click();
+  await expect(page.locator('.user-message').last()).toHaveText(question);
+  await page.locator('#question').fill('Typed question');
+  await page.locator('#send').click();
+  await expect.poll(() => posts).toEqual([{ q: question }]);
+});

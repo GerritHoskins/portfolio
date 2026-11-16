@@ -105,8 +105,15 @@ function showReply(reply, text, done = false) {
   afterText();
 }
 function userMessage(text) { const p = document.createElement('p'); p.className = 'user-message'; p.textContent = text; p.setAttribute('aria-label', 'Your question'); log.append(p); afterText(); return p; }
+// Counts which suggested questions get clicked (question text only, see privacy.html).
+const CLICKS = 'https://avatar.pixeltronic.dev/api/suggestion-click';
+function countClick(question) {
+  try {
+    fetch(CLICKS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ q: question }), keepalive: true }).catch(() => {});
+  } catch { /* Counting never blocks asking. */ }
+}
 function setSuggestions(questions) {
-  suggestions.replaceChildren(...questions.map(q => action(q, null, () => ask(q, false))));
+  suggestions.replaceChildren(...questions.map(q => action(q, null, () => { if (!busy) countClick(q); ask(q, false); })));
 }
 function updateControls() {
   busy = Boolean(localReply || live?.state === 'speaking' || live?.state === 'transcribing');
