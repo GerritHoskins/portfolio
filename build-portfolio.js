@@ -16,6 +16,13 @@ const sources = new Map([
   ['privacy.html', 'privacy.html'],
   ['og-image.png', 'og-image.png'],
   ['avatar-poster.jpg', 'avatar-poster.jpg'],
+  ['favicon.ico', 'favicon.ico'],
+  ['favicon.svg', 'favicon.svg'],
+  ['apple-touch-icon.png', 'apple-touch-icon.png'],
+  ['access.js', 'access.js'],
+  ['404.html', '404.html'],
+  ['robots.txt', 'robots.txt'],
+  ['sitemap.xml', 'sitemap.xml'],
 ]);
 
 // Read every required input before touching the last successful build. Missing,
@@ -60,7 +67,7 @@ for (const [output, bytes] of inputs) {
   }
   const tags = [...markup.matchAll(/<[a-z][^>]*>/gi)].map(([tag]) => ({ tag, attrs: attributes(tag) }));
   if (!tags.some(({ tag, attrs }) => /^<link\b/i.test(tag)
-    && attrs.get('rel')?.split(/\s+/).includes('stylesheet') && attrs.get('href') === 'styles.css')) {
+    && attrs.get('rel')?.split(/\s+/).includes('stylesheet') && ['styles.css', '/styles.css'].includes(attrs.get('href')))) {
     throw new Error(`${source} must reference styles.css as a stylesheet.`);
   }
   const ids = tags.filter(({ attrs }) => attrs.has('id')).map(({ attrs }) => attrs.get('id'));

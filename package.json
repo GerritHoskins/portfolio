@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "description": "Portfolio build system",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build:portfolio": "node build-portfolio.js",
     "preview": "node scripts/preview.mjs",
     "check": "npm run check:unit && npm run check:browser",
     "check:unit": "node --test tests/*.test.mjs",
-    "check:browser": "playwright test"
-  },
-  "dependencies": {
-    "marked": "^11.1.1"
+    "check:browser": "playwright test",
+    "build:icons": "node scripts/icons.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.65.0"
