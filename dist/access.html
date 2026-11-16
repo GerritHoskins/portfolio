@@ -3,10 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data:; font-src https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'sha256-foIoXnMChJvrgp0SndQjXSAHLPOgihwxm/n3cczj8BE='; connect-src https://avatar.pixeltronic.dev">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="theme-color" content="#eae0cf">
   <meta name="robots" content="noindex">
   <title>Request access - pixeltronic.dev</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23547792'/%3E%3C/svg%3E">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
@@ -89,72 +93,6 @@
     <p class="form-help">If the form is unavailable, email <a href="mailto:contact@pixeltronic.dev">contact@pixeltronic.dev</a>. Read how your request is handled in the <a href="/privacy.html">privacy information</a>.</p>
     <a class="back" href="/"><span aria-hidden="true" style="padding:0 6px 0 0">←</span>Back to portfolio</a>
   </main>
-  <script>
-    (function () {
-      var themeButton = document.getElementById('theme');
-      function syncTheme() { themeButton.setAttribute('aria-pressed', String(document.documentElement.dataset.theme === 'dark')); }
-      themeButton.addEventListener('click', function () {
-        var dark = document.documentElement.dataset.theme !== 'dark';
-        if (dark) document.documentElement.dataset.theme = 'dark'; else delete document.documentElement.dataset.theme;
-        try { localStorage.setItem('pxt-theme', dark ? 'dark' : 'light'); } catch (e) { /* The page still works without storage. */ }
-        syncTheme();
-      });
-      syncTheme();
-      themeButton.hidden = false;
-    })();
-  </script>
-  <script>
-    (function () {
-      var API = 'https://avatar.pixeltronic.dev/api/access-request';
-      var form = document.getElementById('request-form');
-      var status = document.getElementById('status');
-      var send = document.getElementById('f-send');
-      var fields = document.getElementById('request-fields');
-      var inFlight = false;
-      var name = document.getElementById('f-name'), reply = document.getElementById('f-reply'), message = document.getElementById('f-message');
-      var ICON = {
-        err: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>',
-        ok: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.8"/></svg>'
-      };
-      function show(kind, text) {
-        status.className = 'status ' + kind; status.hidden = false;
-        status.innerHTML = ICON[kind]; var s = document.createElement('span'); s.textContent = text; status.appendChild(s);
-      }
-      function mark(el, bad) { el.setAttribute('aria-invalid', bad ? 'true' : 'false'); }
-      message.addEventListener('input', function () { document.getElementById('f-count').textContent = message.value.length + ' / 500'; });
-      form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        if (inFlight) return;
-        var bad = [];
-        if (!name.value.trim()) bad.push(name);
-        if (reply.value.trim().length < 3) bad.push(reply);
-        [name, reply].forEach(function (el) { mark(el, bad.indexOf(el) !== -1); });
-        if (bad.length) { show('err', 'Please fill in your name and how I can reach you.'); bad[0].focus(); return; }
-        inFlight = true; send.disabled = true; status.hidden = true; form.setAttribute('aria-busy', 'true');
-        var controller = new AbortController();
-        var timeout = setTimeout(function () { controller.abort(); }, 15000);
-        fetch(API, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'omit', referrerPolicy: 'no-referrer',
-          signal: controller.signal,
-          body: JSON.stringify({ name: name.value.trim(), reply: reply.value.trim(), message: message.value.trim(), website: document.getElementById('f-website').value })
-        }).then(function (response) {
-          if (response.status === 429) { show('err', 'Too many requests from this connection. Please try again later.'); return; }
-          if (!response.ok) { show('err', 'The request could not be sent. Please check the form and try again.'); return; }
-          form.reset(); document.getElementById('f-count').textContent = '0 / 500';
-          show('ok', 'Request sent. If it fits, you will get a pass key at the contact you gave.');
-        }).catch(function (error) {
-          show('err', error.name === 'AbortError'
-            ? 'The server did not respond in time. Your request may have arrived. Please wait before trying again, or email me.'
-            : 'The request could not be confirmed. Please check your connection or contact me by email.');
-        }).finally(function () {
-          clearTimeout(timeout); inFlight = false; send.disabled = false; form.removeAttribute('aria-busy');
-        });
-      });
-      // The static fallback remains disabled if this script cannot initialize.
-      if (typeof fetch === 'function' && typeof AbortController === 'function') {
-        fields.disabled = false; send.disabled = false;
-      }
-    })();
-  </script>
+  <script src="access.js"></script>
 </body>
 </html>

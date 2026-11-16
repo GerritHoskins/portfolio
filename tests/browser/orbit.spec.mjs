@@ -390,3 +390,12 @@ test('no JavaScript still exposes the welcome, project and contact', async ({ br
   await expect(page.getByRole('textbox')).toBeDisabled();
   await context.close();
 });
+
+test('avatar question explains the live guide and links to the pass-key request', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', {name:'How can I talk to your avatar?',exact:true}).click();
+  const reply = page.locator('.reply').last();
+  await expect(reply).toContainText('pass key');
+  await expect(reply.getByRole('link',{name:'request form',exact:true})).toHaveAttribute('href','https://pixeltronic.dev/access.html');
+  await expect(page.getByRole('button', {name:'How can I reach you?',exact:true})).toBeVisible();
+});

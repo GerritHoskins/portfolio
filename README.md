@@ -4,7 +4,9 @@ A static portfolio with an optional, separately hosted AI page guide. The site c
 
 ## Source and generated files
 
-Edit `portfolio-template.html` for the home page, `styles.css` for shared styles, and `access.html` / `privacy.html` for the supporting pages. `avatar-poster.jpg` and `og-image.png` are required build inputs.
+Edit `portfolio-template.html` for the home page, `styles.css` for shared styles, and `access.html` / `privacy.html` for the supporting pages. `avatar-poster.jpg`, `og-image.png` and the icons (`favicon.svg`, `favicon.ico`, `apple-touch-icon.png`) are required build inputs. `favicon.svg` is the icon source; after changing it, run `npm run build:icons` to regenerate the `.ico` and touch icon. `404.html`, `robots.txt` and `sitemap.xml` ship as-is; `404.html` is served for missing paths at any depth, so its local URLs must stay root-relative.
+
+Each page declares a Content-Security-Policy `<meta>` tag. Inline scripts are allowed only by SHA-256 hash, and a unit check fails if an inline script changes without its hash. Put new page logic in a `.js` file instead (see `access.js`). The home page policy leaves `connect-src`, `media-src` and `img-src` open to `https:`/`wss:` because the guide's WebRTC provider picks its media servers at runtime.
 
 `npm run build:portfolio` validates the inputs before writing `index.html` and the release directory, `dist/`. The root `index.html` and files in `dist/` are tracked generated outputs: rebuild them after source changes and include the resulting changes with the source commit. Do not edit the generated copies independently.
 

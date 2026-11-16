@@ -146,6 +146,12 @@ pixeltronic-avatar::part(dialog) { top: max(12px,env(safe-area-inset-top)); max-
 @media (min-width:600px) and (max-height:499px) {
   #suggestions button { flex-basis: auto; }
 }
+@media (max-height:559px) {
+  /* Short screens: one scrollable row of chips keeps room for the transcript. */
+  #suggestions { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  #suggestions::-webkit-scrollbar { display: none; }
+  #suggestions button { flex: none; white-space: nowrap; }
+}
 @media (max-height:499px) {
   .log-wrap { padding-block: 12px; }
   #transcript { padding-bottom: 8px; scroll-padding-block: 8px; }

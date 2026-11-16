@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const sourceNames = ['portfolio-template.html', 'styles.css', 'orbit.css', 'orbit.js', 'avatar-adapter.js', 'portfolio-content.js', 'access.html', 'privacy.html', 'og-image.png', 'avatar-poster.jpg'];
+const sourceNames = ['portfolio-template.html', 'styles.css', 'orbit.css', 'orbit.js', 'avatar-adapter.js', 'portfolio-content.js', 'access.html', 'privacy.html', 'og-image.png', 'avatar-poster.jpg', 'favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'access.js', '404.html', 'robots.txt', 'sitemap.xml'];
 const outputNames = ['index.html', ...sourceNames.slice(1)];
 const snapshot = new Map([...sourceNames, 'build-portfolio.js', 'package.json']
   .map((name) => [name, fs.readFileSync(path.join(root, name))]));
