@@ -415,3 +415,25 @@ test('suggested question buttons count the clicked question and nothing else', a
   await page.locator('#send').click();
   await expect.poll(() => posts).toEqual([{ q: question }]);
 });
+
+test('?noclicks stops counting in this browser until ?clicks turns it back on', async ({ context, page }) => {
+  const posts = [];
+  await context.route('https://avatar.pixeltronic.dev/api/suggestion-click', route => {
+    posts.push(route.request().postDataJSON()); route.fulfill({ status: 202, body: '{"status":"counted"}' });
+  });
+  const clickFirst = async () => {
+    const first = page.locator('#suggestions button').first();
+    await expect(first).toBeVisible();
+    const question = (await first.textContent()).trim();
+    await first.click();
+    await expect(page.locator('.user-message').last()).toHaveText(question);
+    return question;
+  };
+  await page.goto('/?noclicks');
+  await clickFirst();
+  await page.goto('/');
+  await clickFirst();
+  await page.goto('/?clicks');
+  const counted = await clickFirst();
+  await expect.poll(() => posts).toEqual([{ q: counted }]);
+});
