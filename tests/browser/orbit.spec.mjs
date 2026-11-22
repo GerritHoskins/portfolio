@@ -94,6 +94,17 @@ test('visible Start avatar opens access-code consent directly and restores focus
   await expect(page.getByRole('textbox')).toHaveValue('Keep my draft');
 });
 
+test('a #pass= link loads the guide and opens its consent dialog without cutting the intro', async ({ context, page }) => {
+  await mockWidget(context);
+  await page.goto('/#pass=pxt_aaaaaaaaaaaaaaaaaaaa');
+  await expect(page.locator('pixeltronic-avatar [part="dialog"]')).toBeVisible();
+  expect(await page.locator('pixeltronic-avatar').evaluate(el => el.state)).toBe('start');
+  await expect(page.getByText('Stopped. The partial reply is kept.')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await page.goto('/');
+  await expect(page.locator('pixeltronic-avatar [part="dialog"]')).toHaveCount(0);
+});
+
 test('avatar lock reflects confirmed session access, not code entry or connection attempts', async ({ context, page }) => {
   await mockWidget(context); await page.goto('/');
   const control = page.locator('#guide-info');
