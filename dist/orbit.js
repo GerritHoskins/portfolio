@@ -353,5 +353,11 @@ window.addEventListener('pagehide', () => { clearTimeout(timer); clearTimeout(an
 $('.portrait-fallback img').addEventListener('error', event => { event.target.hidden = true; });
 input.disabled = false; $('#voice').disabled = false;
 $('#welcome').remove();
+// A shared https://pixeltronic.dev/#pass=… link opens the guide. The widget then reads the key, removes
+// it from the address and shows its consent dialog with the key filled in. Started before the intro so
+// the intro is not cut off.
+const hasPassLink = () => new URLSearchParams(location.hash.slice(1)).has('pass');
+if (hasPassLink()) startGuide($('#guide-info'));
+window.addEventListener('hashchange', () => { if (hasPassLink() && !adapter.ready) startGuide($('#guide-info')); });
 typeReply(INTRO, 'welcome', '', INTRO_NEXT);
 viewport();
